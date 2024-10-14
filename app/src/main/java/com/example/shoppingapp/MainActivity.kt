@@ -3,13 +3,18 @@ package com.example.shoppingapp
 import MyProfilePage
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -29,6 +34,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,13 +42,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.shoppingapp.pages.BuyPage
 import com.example.shoppingapp.pages.MyProductsPage
 import com.example.shoppingapp.pages.RestockRequestPage
+import com.example.shoppingapp.ui.theme.Pink40
+import com.example.shoppingapp.ui.theme.Purple40
+import com.example.shoppingapp.ui.theme.PurpleGrey40
 import com.example.shoppingapp.ui.theme.ShoppingAppTheme
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -52,17 +68,40 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 设置状态栏透明
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+
         // 创建LoginViewModel
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         setContent {
             ShoppingAppTheme {
-                LoginScreen()
+
+                TransparentStatusBar()
+
             }
         }
     }
-
     private lateinit var loginViewModel: LoginViewModel
+    @Composable
+    fun TransparentStatusBar() {
+        val resources = LocalContext.current.resources
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        val statusBarHeight = if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
+        val statusBarPadding = with(LocalDensity.current) { statusBarHeight.toDp() }
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFEFEEF6))
+                .padding(top = statusBarPadding) // 添加状态栏高度的填充
+        ) {
+            // 你的页面内容
+            LoginScreen()
+        }
+    }
     @Composable
     fun LoginScreen() {
         var isLoading by remember { mutableStateOf(true) }
@@ -204,9 +243,9 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    private fun passenger(){
 
-    }
 
 }
+
+
+
