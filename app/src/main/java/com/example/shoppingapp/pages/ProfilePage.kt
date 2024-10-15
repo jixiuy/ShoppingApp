@@ -1,6 +1,5 @@
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,17 +13,26 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.LoginResponse
 import com.example.shoppingapp.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,16 +40,11 @@ import com.example.shoppingapp.viewmodel.LoginViewModel
 fun MyProfilePage(loginViewModel: LoginViewModel) {
     val loginResponse by loginViewModel.loginResponse
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-        topBar = {
-        }) {
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {}) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
-            Header(paddingValues = it,loginResponse = loginResponse)
+            Header(paddingValues = it, loginResponse = loginResponse)
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -50,7 +53,6 @@ fun MyProfilePage(loginViewModel: LoginViewModel) {
             ) {
                 Card1(loginResponse = loginResponse)
                 Spacer(modifier = Modifier.height(16.dp))
-                //Card2()
                 Spacer(modifier = Modifier.height(16.dp))
                 Logout()
                 Spacer(modifier = Modifier.height(16.dp))
@@ -66,7 +68,7 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
 
     Box(
         modifier = Modifier,
-        ) {
+    ) {
 
         Card(
             modifier = Modifier
@@ -81,8 +83,7 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
                 }
                 .padding(16.dp)
 
-            )
-            {
+            ) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Image(
                         modifier = Modifier
@@ -93,9 +94,7 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
                     )
                     Column(modifier = Modifier.padding(start = 16.dp)) {
                         Text(
-                            text =username,
-                            fontSize = 20.sp,
-                            color = Color.Black
+                            text = username, fontSize = 20.sp, color = Color.Black
                         )
                     }
                 }
@@ -123,116 +122,212 @@ fun Card1(loginResponse: LoginResponse?) {
 @Composable
 fun HistoryBill() {
     val context = LocalContext.current
-    Item(
-        onClick = {
+    Item(onClick = {
 
-        },
-        icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_history_24),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        },
-        text = {
-            Text(text = "历史订单")
-        }
-    )
+    }, icon = {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_history_24),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+    }, text = {
+        Text(text = "历史订单")
+    })
 }
 
 @Composable
 fun ModifyProfile() {
     val context = LocalContext.current
-    Item(
-        onClick = {
+    Item(onClick = {
 
-        },
-        icon = {
-            Icon(
-                Icons.Filled.Edit,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        },
-        text = {
-            Text(text = "完善个人信息")
-        }
-    )
+    }, icon = {
+        Icon(
+            Icons.Filled.Edit, contentDescription = null, tint = MaterialTheme.colorScheme.primary
+        )
+    }, text = {
+        Text(text = "完善个人信息")
+    })
 }
 
 @Composable
-fun BecomeDriver(role: Int) {
+fun BecomeDriver(role: Int, driverViewModel: DriverViewModel = DriverViewModel()) {
     val context = LocalContext.current
-    Item(
-        onClick = {
-            if(role==2||role==4){
-                ToastUtil.showCustomToast(
-                    context = context,
-                    message = "已经是司机",
-                    iconResId = R.drawable.icon // 替换为你的图标资源
-                )
-            }else{
+    val coroutineScope = rememberCoroutineScope()
+    var showDialog by remember { mutableStateOf(false) }
+    // 观察注册状态
+    val registerStatus by driverViewModel.registerStatus.observeAsState(initial = false)
 
-            }
-        },
-        icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_directions_car_24),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
-        },
-        text = {
-            Text(text = "成为司机")
+    // 点击事件：司机角色检查
+    Item(onClick = {
+        if (role == 2 || role == 4 || registerStatus) {
+            ToastUtil.showCustomToast(context, "已经是司机", R.drawable.icon)
+        } else {
+            showDialog = true
         }
+    }, icon = {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_directions_car_24),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+    }, text = { Text(text = "成为司机") })
+
+    // 显示对话框输入信息
+    if (showDialog) {
+        TextInputDialog(onDismiss = { showDialog = false }, onConfirm = { license, location ->
+            coroutineScope.launch {
+                GlobalToken.token?.let {
+                    driverViewModel.registerDriver(
+                        context, license, location, it
+                    )
+                }
+            }
+            showDialog = false
+        })
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TextInputDialog(
+    onDismiss: () -> Unit, onConfirm: (String, String) -> Unit // 用于返回两个文本输入的内容
+) {
+    var firstText by remember { mutableStateOf("") }
+    var secondText by remember { mutableStateOf("") }
+
+    AlertDialog(onDismissRequest = onDismiss, title = { Text("输入汽车牌照和位置信息") }, text = {
+        Column {
+            OutlinedTextField(value = firstText,
+                onValueChange = { firstText = it },
+                label = { Text("骑车牌照") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            OutlinedTextField(value = secondText,
+                onValueChange = { secondText = it },
+                label = { Text("位置信息") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }, confirmButton = {
+        TextButton(onClick = {
+            onConfirm(firstText, secondText)
+            onDismiss()
+        }) {
+            Text("确认")
+        }
+    }, dismissButton = {
+        TextButton(onClick = onDismiss) {
+            Text("取消")
+        }
+    }, properties = DialogProperties(dismissOnClickOutside = false)
     )
 }
 
 @Composable
 fun BecomeSupplier(role: Int) {
     val context = LocalContext.current
-    Item(
-        onClick = {
-            if(role==3||role==4){
-                ToastUtil.showCustomToast(
-                    context = context,
-                    message = "已经是供货人员",
-                    iconResId = R.drawable.icon // 替换为你的图标资源
-                )
-            }else{
+    val stationViewModel: StationViewModel = StationViewModel()
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+    val registerStatus by stationViewModel.registerStatus.observeAsState(initial = false)
+    Item(onClick = {
+        if (role == 3 || role == 4 ||registerStatus) {
+            ToastUtil.showCustomToast(
+                context = context,
+                message = "已经是供货人员",
+                iconResId = R.drawable.icon // 替换为你的图标资源
+            )
+        } else showDialog = true
+    }, icon = {
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_local_shipping_24),
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+    }, text = {
+        Text(text = "成为供货人员")
+    })
 
+    if(showDialog)RegisterStationDialog(onDismiss = { showDialog = false })
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RegisterStationDialog(onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    var storeName by remember { mutableStateOf("") }
+    var contactInfo by remember { mutableStateOf("") }
+    var addressDetails by remember { mutableStateOf("") }
+    var stationType by remember { mutableStateOf("") }
+    val stationViewModel: StationViewModel = viewModel()
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("注册供货站") },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = storeName,
+                    onValueChange = { storeName = it },
+                    label = { Text("商店名称") }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = contactInfo,
+                    onValueChange = { contactInfo = it },
+                    label = { Text("联系信息") }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = addressDetails,
+                    onValueChange = { addressDetails = it },
+                    label = { Text("地址详情") }
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = stationType,
+                    onValueChange = { stationType = it },
+                    label = { Text("站点类型") }
+                )
             }
         },
-        icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_local_shipping_24),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
-            )
+        confirmButton = {
+            TextButton(onClick = {
+                val token = GlobalToken.token // 替换为实际的token
+                if (token != null) {
+                    stationViewModel.registerStation(context, storeName, contactInfo, addressDetails, stationType, token)
+                }
+                onDismiss() // 关闭对话框
+            }) {
+                Text("确定")
+            }
         },
-        text = {
-            Text(text = "成为供货人员")
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("取消")
+            }
         }
     )
 }
-
 @Composable
 fun Item(
     onClick: () -> Unit,
     icon: @Composable RowScope.() -> Unit,
     text: @Composable RowScope.() -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .padding(vertical = 4.dp)
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
-            .clickable {
-                onClick()
-            }
-            .padding(start = 14.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(modifier = Modifier
+        .padding(vertical = 4.dp)
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(8.dp))
+        .clickable {
+            onClick()
+        }
+        .padding(start = 14.dp, end = 14.dp, top = 14.dp, bottom = 14.dp),
+        verticalAlignment = Alignment.CenterVertically) {
         icon()
         Spacer(modifier = Modifier.width(16.dp))
         text()
@@ -256,6 +351,7 @@ private fun Logout() {
             .padding(0.dp)
             .fillMaxWidth()
     ) {
-        Text(text =  "退出应用")
+        Text(text = "退出应用")
     }
 }
+

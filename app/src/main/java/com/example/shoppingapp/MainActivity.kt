@@ -121,7 +121,7 @@ class MainActivity : ComponentActivity() {
 
                 // 登录并观察结果
                 LaunchedEffect(Unit) {
-                    loginViewModel.login("13800000004", "123456")
+                    loginViewModel.login("7", "7")
                 }
             } else {
                 // 根据 loginResponse 更新UI
@@ -142,7 +142,7 @@ class MainActivity : ComponentActivity() {
                             .clickable {
                                 isLoading = true
                                 loginSuccess = false
-                                loginViewModel.login("13800000004", "123456")
+                                loginViewModel.login("7", "7")
                             }
                     )
                 }

@@ -1,6 +1,10 @@
+import com.example.shoppingapp.models.DriverResult
 import retrofit2.Call
 import retrofit2.http.*
 import com.example.shoppingapp.models.Result
+import com.example.shoppingapp.models.StationResponse
+import retrofit2.Response
+
 interface PassengerApi {
 
     @GET("/user/login")
@@ -38,5 +42,20 @@ interface PassengerApi {
     @GET("/user/passenger/currentOrder/{userId}")
     fun getUserCurrentOrder(@Path("userId") userId: String): Call<Result>
 
+    @POST("user/driver/register")
+    suspend fun registerDriver(
+        @Query("license") license: String,
+        @Query("location") location: String,
+        @Header("token") token: String
+    ): Response<DriverResult>
+
+    @POST("user/station/register")
+    suspend fun registerStation(
+        @Query("store_name") storeName: String,
+        @Query("contact_info") contactInfo: String,
+        @Query("address_detils") addressDetails: String,
+        @Query("station_type") stationType: String,
+        @Header("token") token: String
+    ): Response<StationResponse>
 
 }
