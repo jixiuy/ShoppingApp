@@ -1,4 +1,4 @@
-package com.example.shoppingapp
+package com.example.shoppingapp.pages
 
 import MyProfilePage
 import android.os.Bundle
@@ -12,9 +12,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -34,7 +32,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,22 +40,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.ViewModelProvider
-import com.example.shoppingapp.pages.BuyPage
-import com.example.shoppingapp.pages.MyProductsPage
-import com.example.shoppingapp.pages.RestockRequestPage
-import com.example.shoppingapp.ui.theme.Pink40
-import com.example.shoppingapp.ui.theme.Purple40
-import com.example.shoppingapp.ui.theme.PurpleGrey40
+import com.example.shoppingapp.GlobalToken
+import com.example.shoppingapp.R
 import com.example.shoppingapp.ui.theme.ShoppingAppTheme
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -75,7 +63,7 @@ class MainActivity : ComponentActivity() {
         )
 
         // 创建LoginViewModel
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
         setContent {
             ShoppingAppTheme {
 
@@ -84,7 +72,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-    private lateinit var loginViewModel: LoginViewModel
+
     @Composable
     fun TransparentStatusBar() {
         val resources = LocalContext.current.resources
@@ -99,76 +87,9 @@ class MainActivity : ComponentActivity() {
                 .padding(top = statusBarPadding) // 添加状态栏高度的填充
         ) {
             // 你的页面内容
-            LoginScreen()
+            driverOrSupplier()
         }
     }
-    @Composable
-    fun LoginScreen() {
-        var isLoading by remember { mutableStateOf(true) }
-        var loginSuccess by remember { mutableStateOf(false) }
-        val context = LocalContext.current
-
-        // 从 ViewModel 中获取状态
-        val loginResponse by loginViewModel.loginResponse
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(50.dp)
-                )
-
-                // 登录并观察结果
-                LaunchedEffect(Unit) {
-                    loginViewModel.login("7", "7")
-                }
-            } else {
-                // 根据 loginResponse 更新UI
-                if (loginSuccess) {
-
-                    ToastUtil.showCustomToast(
-                        context = context,
-                        message = "登录成功",
-                        iconResId = R.drawable.icon // 替换为你的图标资源
-                    )
-                    driverOrSupplier()
-                } else {
-                    Text(
-                        text = "登录失败，请重试。",
-                        style = MaterialTheme.typography.headlineSmall,
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .clickable {
-                                isLoading = true
-                                loginSuccess = false
-                                loginViewModel.login("7", "7")
-                            }
-                    )
-                }
-            }
-
-            // 当 loginResponse 更新时进行状态更新
-            loginResponse?.let { response ->
-                if (response.code == 200) {
-                    GlobalToken.token = response.data?.token
-                    Log.d("登录成功", "LoginScreen: ${response}")
-                    isLoading = false
-                    loginSuccess = true
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "登录失败：${response.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    Log.d("登录失败", "LoginScreen: ${response}")
-                    isLoading = false
-                }
-            }
-        }
-
-    }
-
 
     @Composable
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -236,13 +157,12 @@ class MainActivity : ComponentActivity() {
                         0 -> BuyPage()
                         1 -> MyProductsPage()
                         2 -> RestockRequestPage()
-                        3 -> MyProfilePage(loginViewModel = loginViewModel)
+                        3 -> MyProfilePage()
                     }
                 }
             }
         }
     }
-
 
 
 }

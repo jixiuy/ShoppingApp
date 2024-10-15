@@ -11,12 +11,16 @@ import com.example.shoppingapp.models.LoginResponse
 import com.example.shoppingapp.repository.UserRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class LoginViewModel : ViewModel() {
+
     private val userRepository = UserRepository()
 
-    private val _loginResponse = mutableStateOf<LoginResponse?>(null)
-    val loginResponse: State<LoginResponse?> = _loginResponse
+    // 使用 StateFlow 来管理登录响应
+    private val _loginResponse = MutableStateFlow<LoginResponse?>(null)
+    val loginResponse: StateFlow<LoginResponse?> = _loginResponse
 
     fun login(phone: String, password: String) {
         viewModelScope.launch {
@@ -25,7 +29,5 @@ class LoginViewModel : ViewModel() {
             _loginResponse.value = response
         }
     }
-
-
 
 }

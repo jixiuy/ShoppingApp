@@ -1,5 +1,6 @@
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -31,14 +32,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.LoginResponse
+import com.example.shoppingapp.pages.LoginActivity
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyProfilePage(loginViewModel: LoginViewModel) {
-    val loginResponse by loginViewModel.loginResponse
+fun MyProfilePage(loginViewModel: LoginViewModel = viewModel()) {
+    val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {}) {
         Column(
@@ -64,10 +67,12 @@ fun MyProfilePage(loginViewModel: LoginViewModel) {
 
 @Composable
 fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
-    val username = loginResponse?.data?.username ?: "用户名"
 
+    val username = loginResponse?.data?.username ?: "请先登录"
+    val context = LocalContext.current
     Box(
         modifier = Modifier,
+
     ) {
 
         Card(
@@ -79,7 +84,8 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
         ) {
             Box(modifier = Modifier
                 .clickable {
-
+                    val intent = Intent(context, LoginActivity::class.java)
+                    context.startActivity(intent)
                 }
                 .padding(16.dp)
 
@@ -121,7 +127,7 @@ fun Card1(loginResponse: LoginResponse?) {
 
 @Composable
 fun HistoryBill() {
-    val context = LocalContext.current
+
     Item(onClick = {
 
     }, icon = {
