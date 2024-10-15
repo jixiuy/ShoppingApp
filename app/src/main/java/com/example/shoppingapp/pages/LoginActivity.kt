@@ -28,15 +28,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppingapp.GlobalToken
+import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.viewmodel.LoginViewModel
+import com.example.shoppingapp.viewmodel.LoginViewModelFactory
+import kotlinx.coroutines.launch
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+
+        loginViewModel = (application as MyApp).loginViewModel
+
         setContent {
             LoginScreen()
         }
@@ -48,11 +55,11 @@ class LoginActivity : ComponentActivity() {
         val context = LocalContext.current
         val username = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
-
+        val coroutineScope = rememberCoroutineScope()
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .offset(y=-140.dp)
+                .offset(y = -140.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -143,7 +150,9 @@ class LoginActivity : ComponentActivity() {
                 // 登录按钮
                 Button(
                     onClick = {
-                        loginViewModel.login(username.value, password.value)
+                        coroutineScope.launch {
+                            loginViewModel.login(username.value, password.value)
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -180,14 +189,19 @@ class LoginActivity : ComponentActivity() {
             }
         }
         val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
-
+        var count by remember {
+            mutableStateOf(0)
+        }
         // 当 loginResponse 更新时进行状态更新
         loginResponse?.let { response ->
-            if (response.code == 200) {
+            if (response.code == 200 && count ==0) {
                 GlobalToken.token = response.data?.token
                 ToastUtil.showCustomToast(context,"登录成功",R.drawable.icon)
                 (context as? Activity)?.finish()
-            } else {
+                count+=1
+            } else if(count>0){
+                ToastUtil.showCustomToast(context,"已经登录过了，不允许重复登录",R.drawable.icon)
+            }else{
                 ToastUtil.showCustomToast(context,"登录失败",R.drawable.icon)
             }
         }

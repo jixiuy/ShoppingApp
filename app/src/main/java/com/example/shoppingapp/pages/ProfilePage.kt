@@ -1,6 +1,7 @@
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,17 +22,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
-import com.example.shoppingapp.models.LoginResponse
 import com.example.shoppingapp.pages.LoginActivity
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -40,21 +36,22 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyProfilePage(loginViewModel: LoginViewModel = viewModel()) {
-    val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
+fun MyProfilePage(loginViewModel: LoginViewModel) {
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {}) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Header(paddingValues = it, loginResponse = loginResponse)
+
+            Header(paddingValues = it,loginViewModel)
+
             Column(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
-                Card1(loginResponse = loginResponse)
+                Card1()
                 Spacer(modifier = Modifier.height(16.dp))
                 Spacer(modifier = Modifier.height(16.dp))
                 Logout()
@@ -66,13 +63,26 @@ fun MyProfilePage(loginViewModel: LoginViewModel = viewModel()) {
 }
 
 @Composable
-fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
-
-    val username = loginResponse?.data?.username ?: "请先登录"
+fun Header(paddingValues: PaddingValues, loginViewModel: LoginViewModel) {
     val context = LocalContext.current
+
+    val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
+
+    var username: String? = null
+    loginResponse?.let { response ->
+        Log.d("Header1111", "response changed: $response")
+        if (response.code == 200) {
+            username= response.data?.username
+        } else {
+            username= "请先登录"
+        }
+    }
+    // 在 loginResponse 更新时进行 Log
+    LaunchedEffect(loginResponse) {
+        Log.d("Header1111", "Username changed: $username")
+    }
     Box(
         modifier = Modifier,
-
     ) {
 
         Card(
@@ -100,7 +110,7 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
                     )
                     Column(modifier = Modifier.padding(start = 16.dp)) {
                         Text(
-                            text = username, fontSize = 20.sp, color = Color.Black
+                            text = username ?: "请先登录", fontSize = 20.sp, color = Color.Black
                         )
                     }
                 }
@@ -110,7 +120,7 @@ fun Header(paddingValues: PaddingValues, loginResponse: LoginResponse?) {
 }
 
 @Composable
-fun Card1(loginResponse: LoginResponse?) {
+fun Card1() {
     ElevatedCard {
         Column(
             modifier = Modifier
@@ -119,8 +129,8 @@ fun Card1(loginResponse: LoginResponse?) {
         ) {
             HistoryBill()
             ModifyProfile()
-            loginResponse?.data?.let { BecomeDriver(it.role) }
-            loginResponse?.data?.let { BecomeSupplier(it.role) }
+            BecomeDriver()
+            BecomeSupplier()
         }
     }
 }
@@ -156,7 +166,8 @@ fun ModifyProfile() {
 }
 
 @Composable
-fun BecomeDriver(role: Int, driverViewModel: DriverViewModel = DriverViewModel()) {
+fun BecomeDriver(driverViewModel: DriverViewModel = DriverViewModel()) {
+
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     var showDialog by remember { mutableStateOf(false) }
@@ -165,7 +176,7 @@ fun BecomeDriver(role: Int, driverViewModel: DriverViewModel = DriverViewModel()
 
     // 点击事件：司机角色检查
     Item(onClick = {
-        if (role == 2 || role == 4 || registerStatus) {
+        if (registerStatus) {
             ToastUtil.showCustomToast(context, "已经是司机", R.drawable.icon)
         } else {
             showDialog = true
@@ -181,12 +192,16 @@ fun BecomeDriver(role: Int, driverViewModel: DriverViewModel = DriverViewModel()
     // 显示对话框输入信息
     if (showDialog) {
         TextInputDialog(onDismiss = { showDialog = false }, onConfirm = { license, location ->
+
             coroutineScope.launch {
-                GlobalToken.token?.let {
+                if(GlobalToken.token==null){
+                    ToastUtil.showCustomToast(context,"请先登录",R.drawable.icon)
+                }else{
                     driverViewModel.registerDriver(
-                        context, license, location, it
+                        context, license, location, GlobalToken.token.toString()
                     )
                 }
+
             }
             showDialog = false
         })
@@ -234,7 +249,7 @@ fun TextInputDialog(
 }
 
 @Composable
-fun BecomeSupplier(role: Int) {
+fun BecomeSupplier() {
     val context = LocalContext.current
     val stationViewModel: StationViewModel = StationViewModel()
     var showDialog by remember {
@@ -242,7 +257,7 @@ fun BecomeSupplier(role: Int) {
     }
     val registerStatus by stationViewModel.registerStatus.observeAsState(initial = false)
     Item(onClick = {
-        if (role == 3 || role == 4 ||registerStatus) {
+        if (registerStatus) {
             ToastUtil.showCustomToast(
                 context = context,
                 message = "已经是供货人员",
@@ -306,6 +321,8 @@ fun RegisterStationDialog(onDismiss: () -> Unit) {
                 val token = GlobalToken.token // 替换为实际的token
                 if (token != null) {
                     stationViewModel.registerStation(context, storeName, contactInfo, addressDetails, stationType, token)
+                }else{
+                    ToastUtil.showCustomToast(context, "请先登录", R.drawable.icon)
                 }
                 onDismiss() // 关闭对话框
             }) {

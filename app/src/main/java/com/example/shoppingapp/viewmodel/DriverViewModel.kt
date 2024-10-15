@@ -23,10 +23,7 @@ class DriverViewModel : ViewModel() {
                     _registerStatus.postValue(true)
                     ToastUtil.showCustomToast(context, "成为司机成功", R.drawable.icon)
                 } else {
-                    // 已经是司机，或其他原因注册失败
-                    if(_registerStatus.value==true)
-                        ToastUtil.showCustomToast(context, "已经是司机", R.drawable.icon)
-                    else ToastUtil.showCustomToast(context, "成为司机失败", R.drawable.icon)
+                    ToastUtil.showCustomToast(context, "已经是司机", R.drawable.icon)
                 }
             } catch (e: Exception) {
                 _registerStatus.postValue(false)

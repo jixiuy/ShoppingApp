@@ -29,10 +29,9 @@ class StationViewModel : ViewModel() {
                     _registerStatus.postValue(true)
                     ToastUtil.showCustomToast(context, "成为供货站工作人员成功", R.drawable.icon)
                 } else {
-                    //_registerStatus.postValue(false)
-                    if(_registerStatus.value==true)
-                        ToastUtil.showCustomToast(context, "已经是供货人员", R.drawable.icon)
-                    else ToastUtil.showCustomToast(context, "成为供货站工作人员失败", R.drawable.icon)
+
+                    ToastUtil.showCustomToast(context, "已经是供货人员", R.drawable.icon)
+
                 }
             } catch (e: Exception) {
                 //_registerStatus.postValue(false)
