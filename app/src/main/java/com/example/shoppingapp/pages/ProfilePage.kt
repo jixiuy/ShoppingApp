@@ -28,6 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
+import com.example.shoppingapp.pages.HistoryAccount
 import com.example.shoppingapp.pages.LoginActivity
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -137,9 +138,10 @@ fun Card1() {
 
 @Composable
 fun HistoryBill() {
-
+    val context = LocalContext.current
     Item(onClick = {
-
+        val intent = Intent(context, HistoryAccount::class.java)
+        context.startActivity(intent)
     }, icon = {
         Icon(
             painter = painterResource(id = R.drawable.baseline_history_24),

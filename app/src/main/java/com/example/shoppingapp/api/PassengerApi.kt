@@ -1,4 +1,5 @@
 import com.example.shoppingapp.models.DriverResult
+import com.example.shoppingapp.models.HistoryAccountResponse
 import retrofit2.Call
 import retrofit2.http.*
 import com.example.shoppingapp.models.Result
@@ -57,5 +58,10 @@ interface PassengerApi {
         @Query("station_type") stationType: String,
         @Header("token") token: String
     ): Response<StationResponse>
+
+    @GET("user/orders/history")
+    suspend fun historyAccount(
+        @Header("token")token:String
+    ):HistoryAccountResponse
 
 }

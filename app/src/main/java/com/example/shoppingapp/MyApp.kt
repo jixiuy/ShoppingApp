@@ -9,6 +9,11 @@ class MyApp : Application() {
     val loginViewModel: LoginViewModel by lazy {
         LoginViewModelFactory(this).create(LoginViewModel::class.java)
     }
+
+    companion object {
+        // 静态变量
+        var count: Int? = 0
+    }
 }
 
 

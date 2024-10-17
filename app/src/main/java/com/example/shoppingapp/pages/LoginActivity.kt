@@ -189,18 +189,18 @@ class LoginActivity : ComponentActivity() {
             }
         }
         val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
-        var count by remember {
-            mutableStateOf(0)
-        }
+
+
         // 当 loginResponse 更新时进行状态更新
         loginResponse?.let { response ->
-            if (response.code == 200 && count ==0) {
+            if (response.code == 200 && MyApp.count ==0) {
                 GlobalToken.token = response.data?.token
                 ToastUtil.showCustomToast(context,"登录成功",R.drawable.icon)
                 (context as? Activity)?.finish()
-                count+=1
-            } else if(count>0){
+                MyApp.count = MyApp.count!! + 1
+            } else if(MyApp.count!! >0){
                 ToastUtil.showCustomToast(context,"已经登录过了，不允许重复登录",R.drawable.icon)
+                (context as? Activity)?.finish()
             }else{
                 ToastUtil.showCustomToast(context,"登录失败",R.drawable.icon)
             }
@@ -208,5 +208,6 @@ class LoginActivity : ComponentActivity() {
 
 
     }
+
 
 }

@@ -9,28 +9,32 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="login">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/MyApp.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/LoginViewModelFactory.kt" afterDir="false" />
+    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="I modify the login's bug.The knowledge at below:&#10;A ViewModel's life cycle is connected with an activity.If we want to supervise a ViewModel at two different activity.We should use application ViewModel.But It is different.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/HistoryAccountResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/HistoryAccount.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/HistoryAccountViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/MyApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/MyApp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/PassengerApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/PassengerApi.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/ProfilePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/ProfilePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/UserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/UserRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/LoginViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/LoginViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[8f08b2bb]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-8f08b2bb-3STTAb._adb-tls-connect._tcp.]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -338,7 +342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1728998555816</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="I modify the login's bug.The knowledge at below:&#10;A ViewModel's life cycle is connected with an activity.If we want to supervise a ViewModel at two different activity.We should use application ViewModel.But It is different.">
+      <created>1729020302342</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729020302342</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -360,6 +371,7 @@
     <MESSAGE value="I set the status bar to transparent." />
     <MESSAGE value="Today I add two functions to my shopping app.&#10;Firstly,I can become a driver from passenger.&#10;Secondly,I can become a station from passenger.And I deal with a problem which is become those repeat." />
     <MESSAGE value="login" />
-    <option name="LAST_COMMIT_MESSAGE" value="login" />
+    <MESSAGE value="I modify the login's bug.The knowledge at below:&#10;A ViewModel's life cycle is connected with an activity.If we want to supervise a ViewModel at two different activity.We should use application ViewModel.But It is different." />
+    <option name="LAST_COMMIT_MESSAGE" value="I modify the login's bug.The knowledge at below:&#10;A ViewModel's life cycle is connected with an activity.If we want to supervise a ViewModel at two different activity.We should use application ViewModel.But It is different." />
   </component>
 </project>
