@@ -1,5 +1,6 @@
 package com.example.shoppingapp.repository
 
+import com.example.shoppingapp.models.CarInformationResponse
 import com.example.shoppingapp.models.DriverResult
 import com.example.shoppingapp.models.HistoryAccountResponse
 import com.example.shoppingapp.models.LoginResponse
@@ -36,6 +37,13 @@ class UserRepository {
         token: String
     ): Response<StationResponse> {
         return passengerService.registerStation(storeName, contactInfo, addressDetails, stationType, token)
+    }
+
+    suspend fun getCarInformation(
+        license:Int,
+        token:String
+    ): CarInformationResponse {
+        return passengerService.getCarInformation(license,token)
     }
 
 }

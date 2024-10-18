@@ -13,6 +13,7 @@ class MyApp : Application() {
     companion object {
         // 静态变量
         var count: Int? = 0
+        var ToastCarInfoOnce:Int? = 0
     }
 }
 

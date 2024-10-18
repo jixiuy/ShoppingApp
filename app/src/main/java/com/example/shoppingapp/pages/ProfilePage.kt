@@ -9,6 +9,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.*
@@ -44,7 +45,7 @@ fun MyProfilePage(loginViewModel: LoginViewModel) {
             modifier = Modifier.fillMaxSize()
         ) {
 
-            Header(paddingValues = it,loginViewModel)
+            Header(paddingValues = it, loginViewModel)
 
             Column(
                 modifier = Modifier
@@ -73,9 +74,9 @@ fun Header(paddingValues: PaddingValues, loginViewModel: LoginViewModel) {
     loginResponse?.let { response ->
         Log.d("Header1111", "response changed: $response")
         if (response.code == 200) {
-            username= response.data?.username
+            username = response.data?.username
         } else {
-            username= "请先登录"
+            username = "请先登录"
         }
     }
     // 在 loginResponse 更新时进行 Log
@@ -196,9 +197,9 @@ fun BecomeDriver(driverViewModel: DriverViewModel = DriverViewModel()) {
         TextInputDialog(onDismiss = { showDialog = false }, onConfirm = { license, location ->
 
             coroutineScope.launch {
-                if(GlobalToken.token==null){
-                    ToastUtil.showCustomToast(context,"请先登录",R.drawable.icon)
-                }else{
+                if (GlobalToken.token == null) {
+                    ToastUtil.showCustomToast(context, "请先登录", R.drawable.icon)
+                } else {
                     driverViewModel.registerDriver(
                         context, license, location, GlobalToken.token.toString()
                     )
@@ -210,7 +211,6 @@ fun BecomeDriver(driverViewModel: DriverViewModel = DriverViewModel()) {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextInputDialog(
@@ -221,7 +221,8 @@ fun TextInputDialog(
 
     AlertDialog(onDismissRequest = onDismiss, title = { Text("输入汽车牌照和位置信息") }, text = {
         Column {
-            OutlinedTextField(value = firstText,
+            OutlinedTextField(
+                value = firstText,
                 onValueChange = { firstText = it },
                 label = { Text("骑车牌照") },
                 modifier = Modifier.fillMaxWidth()
@@ -229,7 +230,8 @@ fun TextInputDialog(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(value = secondText,
+            OutlinedTextField(
+                value = secondText,
                 onValueChange = { secondText = it },
                 label = { Text("位置信息") },
                 modifier = Modifier.fillMaxWidth()
@@ -249,6 +251,7 @@ fun TextInputDialog(
     }, properties = DialogProperties(dismissOnClickOutside = false)
     )
 }
+
 
 @Composable
 fun BecomeSupplier() {
@@ -276,8 +279,9 @@ fun BecomeSupplier() {
         Text(text = "成为供货人员")
     })
 
-    if(showDialog)RegisterStationDialog(onDismiss = { showDialog = false })
+    if (showDialog) RegisterStationDialog(onDismiss = { showDialog = false })
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterStationDialog(onDismiss: () -> Unit) {
@@ -322,8 +326,15 @@ fun RegisterStationDialog(onDismiss: () -> Unit) {
             TextButton(onClick = {
                 val token = GlobalToken.token // 替换为实际的token
                 if (token != null) {
-                    stationViewModel.registerStation(context, storeName, contactInfo, addressDetails, stationType, token)
-                }else{
+                    stationViewModel.registerStation(
+                        context,
+                        storeName,
+                        contactInfo,
+                        addressDetails,
+                        stationType,
+                        token
+                    )
+                } else {
                     ToastUtil.showCustomToast(context, "请先登录", R.drawable.icon)
                 }
                 onDismiss() // 关闭对话框
@@ -338,6 +349,7 @@ fun RegisterStationDialog(onDismiss: () -> Unit) {
         }
     )
 }
+
 @Composable
 fun Item(
     onClick: () -> Unit,

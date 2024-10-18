@@ -169,13 +169,8 @@ class HistoryAccount : ComponentActivity() {
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "订单ID: ${order.orderId}",
-                fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
                 text = "商品名称: ${order.productName}",
-                fontSize = 14.sp,
+                fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
