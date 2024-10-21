@@ -69,7 +69,7 @@ fun BuyPage() {
     val passengerViewModel: PassengerViewModel = viewModel()
     val context = LocalContext.current
 
-    val coroutineScope = rememberCoroutineScope()
+
     var isShow by remember {
         mutableStateOf(false)
     }
@@ -90,7 +90,7 @@ fun BuyPage() {
         }
     }
     if (!isShow) {
-        inputCarLicense(coroutineScope, passengerViewModel, context)
+        inputCarLicense(passengerViewModel, context)
     }
     if (isShow) {
         Scaffold(
@@ -241,11 +241,10 @@ fun MyText(order: CarInformationResponse.Data) {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun inputCarLicense(
-    coroutineScope: CoroutineScope,
     passengerViewModel: PassengerViewModel,
     context: Context
 ) {
-
+    val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier
             .fillMaxSize()

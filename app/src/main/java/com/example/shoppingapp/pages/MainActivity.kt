@@ -25,7 +25,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,10 +44,13 @@ import com.example.shoppingapp.ui.theme.ShoppingAppTheme
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
-
+val LocalLoginViewModel = compositionLocalOf<LoginViewModel> {
+    error("No ViewModel provided")
+}
 class MainActivity : ComponentActivity() {
     private lateinit var loginViewModel: LoginViewModel
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 在 Activity1 和 Activity2 中访问
@@ -56,13 +61,12 @@ class MainActivity : ComponentActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
 
-        // 创建LoginViewModel
 
         setContent {
             ShoppingAppTheme {
-
-                TransparentStatusBar()
-
+                CompositionLocalProvider(LocalLoginViewModel provides loginViewModel) {
+                    TransparentStatusBar()
+                }
             }
         }
     }
@@ -151,7 +155,7 @@ class MainActivity : ComponentActivity() {
                         0 -> BuyPage()
                         1 -> DriverGoodsPage()
                         2 -> RestockRequestPage()
-                        3 -> MyProfilePage(loginViewModel)
+                        3 -> MyProfilePage()
                     }
                 }
             }

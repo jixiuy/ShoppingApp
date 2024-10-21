@@ -15,6 +15,8 @@ class MyApp : Application() {
         instance = this
     }
 
+
+
     companion object {
         // 静态变量
         var count: Int? = 0

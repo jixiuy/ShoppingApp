@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
 import com.example.shoppingapp.pages.HistoryAccount
+import com.example.shoppingapp.pages.LocalLoginViewModel
 import com.example.shoppingapp.pages.LoginActivity
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -38,14 +39,14 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyProfilePage(loginViewModel: LoginViewModel) {
+fun MyProfilePage() {
 
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {}) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            Header(paddingValues = it, loginViewModel)
+            Header(paddingValues = it)
 
             Column(
                 modifier = Modifier
@@ -65,10 +66,10 @@ fun MyProfilePage(loginViewModel: LoginViewModel) {
 }
 
 @Composable
-fun Header(paddingValues: PaddingValues, loginViewModel: LoginViewModel) {
+fun Header(paddingValues: PaddingValues) {
     val context = LocalContext.current
 
-    val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
+    val loginResponse by LocalLoginViewModel.current.loginResponse.collectAsState(initial = null)
 
     var username: String? = null
     loginResponse?.let { response ->
@@ -79,10 +80,7 @@ fun Header(paddingValues: PaddingValues, loginViewModel: LoginViewModel) {
             username = "请先登录"
         }
     }
-    // 在 loginResponse 更新时进行 Log
-    LaunchedEffect(loginResponse) {
-        Log.d("Header1111", "Username changed: $username")
-    }
+
     Box(
         modifier = Modifier,
     ) {
