@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppingapp.R
+import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.repository.SupplierRepository
 import com.example.shoppingapp.repository.UserRepository
 import kotlinx.coroutines.launch
@@ -43,5 +44,26 @@ class StationViewModel : ViewModel() {
 
     private val stationRepository = SupplierRepository()
 
+    // 使用 StateFlow 来管理登录响应
+    private val _stationGoodsInfo = MutableLiveData<StationBean?>(null)
+    val stationGoodsInfo: LiveData<StationBean?> = _stationGoodsInfo
 
+    fun getStationGoodsInfo(token: String) {
+        viewModelScope.launch {
+            try {
+                val response = stationRepository.getStationShoppingInfo(token)
+
+                if (response.isSuccessful && response.body()?.code == 200) {
+                    // 注册成功
+                    _stationGoodsInfo.postValue(response.body())
+                    //ToastUtil.showCustomToast(MyApp.getContext(), "获取司机数据成功", R.drawable.icon)
+                } else {
+                    //ToastUtil.showCustomToast(MyApp.getContext(), "司机没有数据", R.drawable.icon)
+                }
+            } catch (e: Exception) {
+                _stationGoodsInfo.postValue(null)
+                //Toast.makeText(MyApp.getContext(), "请求异常: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

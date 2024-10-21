@@ -1,6 +1,6 @@
 package com.example.shoppingapp.models
 
-data class SupplierBean(
+data class StationBean(
     val code:Int,
     val message:String?,
     val data:List<Data>?

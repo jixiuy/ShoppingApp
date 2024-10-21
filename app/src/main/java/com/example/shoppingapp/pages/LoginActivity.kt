@@ -196,8 +196,10 @@ class LoginActivity : ComponentActivity() {
             if (response.code == 200 && MyApp.count ==0) {
                 GlobalToken.token = response.data?.token
                 ToastUtil.showCustomToast(context,"登录成功",R.drawable.icon)
+                GlobalToken.role = response.data?.role
                 (context as? Activity)?.finish()
                 MyApp.count = MyApp.count!! + 1
+
             } else if(MyApp.count!! >0){
                 ToastUtil.showCustomToast(context,"已经登录过了，不允许重复登录",R.drawable.icon)
                 (context as? Activity)?.finish()
