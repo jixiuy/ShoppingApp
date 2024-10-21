@@ -82,12 +82,11 @@ fun BuyPage() {
             isShow = true
             if (MyApp.ToastCarInfoOnce == 0) {
                 ToastUtil.showCustomToast(context, "输入成功", R.drawable.icon)
-
                 MyApp.ToastCarInfoOnce = 1
             }
 
         } else {
-            ToastUtil.showCustomToast(context, "请输入正确的车牌号", R.drawable.icon)
+            ToastUtil.showCustomToast(context, "该车辆没商品信息", R.drawable.icon)
         }
     }
     if (!isShow) {
@@ -246,9 +245,7 @@ private fun inputCarLicense(
     passengerViewModel: PassengerViewModel,
     context: Context
 ) {
-    var license by remember {
-        mutableStateOf("")
-    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -293,6 +290,7 @@ private fun inputCarLicense(
                 onClick = {
                     coroutineScope.launch {
                         if (GlobalToken.token != null) {
+                            Log.d("111111111", "inputCarLicense: ${passengerViewModel.license.value}")
                             passengerViewModel.getCarInformation(
                                 passengerViewModel.license.value.toInt(),
                                 GlobalToken.token.toString()

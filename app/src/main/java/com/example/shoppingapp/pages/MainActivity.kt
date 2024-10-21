@@ -149,7 +149,7 @@ class MainActivity : ComponentActivity() {
                 ) { page ->
                     when (page) {
                         0 -> BuyPage()
-                        1 -> MyProductsPage()
+                        1 -> DriverGoodsPage()
                         2 -> RestockRequestPage()
                         3 -> MyProfilePage(loginViewModel)
                     }

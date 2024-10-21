@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppingapp.R
+import com.example.shoppingapp.repository.SupplierRepository
 import com.example.shoppingapp.repository.UserRepository
 import kotlinx.coroutines.launch
 
@@ -39,4 +40,8 @@ class StationViewModel : ViewModel() {
             }
         }
     }
+
+    private val stationRepository = SupplierRepository()
+
+
 }

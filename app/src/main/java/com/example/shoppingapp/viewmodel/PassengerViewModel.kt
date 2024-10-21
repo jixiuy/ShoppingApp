@@ -1,5 +1,6 @@
 package com.example.shoppingapp.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -24,7 +25,6 @@ class PassengerViewModel : ViewModel() {
         viewModelScope.launch {
             val response = userRepository.getCarInformation(license,token)
             _carInformationResponse.value = response
-
         }
 
     }
