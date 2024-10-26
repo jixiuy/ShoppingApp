@@ -9,28 +9,145 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="Today,I add the shopping ui preliminary.">
+    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="Today,I add register UI.">
+      <change afterPath="$PROJECT_DIR$/../../../代码/玩安卓APP/Summer-examine-main/app/libs/litepal-2.0.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/夕辰/作业三/app/src/main/java/com/example/homeworkthree/ThemeDataAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/夕辰/作业三/app/src/main/res/layout/list_item_theme_data.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/proguard-rules.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/androidTest/java/com/example/myapplication/ExampleInstrumentedTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/java/com/example/myapplication/MainActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/drawable/_01729920716__pic_thumb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/drawable/_91729920715__pic_thumb.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/drawable/ic_launcher_foreground.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-anydpi/ic_launcher.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-anydpi/ic_launcher_round.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-hdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-mdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/app/src/test/java/com/example/myapplication/ExampleUnitTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/用户/大小眼/MyApplication/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/BlogFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/CommunityFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/DiscoverFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/DynamicFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/MainActivity3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/MusicFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/PlaylistDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/ProfileFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/RecommendFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/RoamingFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/Song.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/SongAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/UserAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/java/com/example/musicapp/UserDatabaseHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/color/selector_nav_item_color.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_360_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_account_circle_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_add_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_arrow_back_ios_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_attach_money_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_dehaze_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_explore_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_forum_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_keyboard_voice_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_lightbulb_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_message_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_music_note_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_radio_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_search_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/baseline_snowboarding_24.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/cd37fad0a3765c9d989770adccb75eb4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/circular_image_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p6.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/p7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/photo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/drawable/wechatimg6b0b32cdb63ed3dced3aeaa8e905ab57.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/activity_main3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/dialog_add_playlist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/dialog_edit_playlist.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_blog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_community.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_discover.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_dynamic.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_music.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_recommend.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/fragment_roaming.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/item_song.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/item_user.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/layout/nav_header.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/navigation/nav_graph.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/values-land/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/values-v23/themes.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/values-w1240dp/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/values-w600dp/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../代码/网易云/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/RegisterApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/CarShoppingModifyResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/RequestResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/StationInfoResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/User.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/RegisterPage.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/RegisterViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../baoyan/保研/夏令营申请/北京邮电大学/WeaklySegPartialPoints-master/.idea/WeaklySegPartialPoints-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../baoyan/保研/夏令营申请/北京邮电大学/WeaklySegPartialPoints-master_副本/.idea/WeaklySegPartialPoints-master.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../baoyan/保研/夏令营申请/北京邮电大学/调好的代码/WeaklySegPartialPoints-master/.idea/WeaklySegPartialPoints-master.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/MyApp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/MyApp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/ProductApi.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/DriverApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/DriverApi.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/SupplierApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/SupplierApi.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/network/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/network/RetrofitClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/BuyPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/BuyPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/DriverGoodsPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/DriverGoodsPage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/LoginActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/ProfilePage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/ProfilePage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/RestockRequestPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/RestockRequestPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/RestockRequestPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/DriverRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/DriverRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/SupplierRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/SupplierRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/UserRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/UserRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/jiangxiyu/.android/avd/Resizable_Experimental_API_35.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -83,8 +200,9 @@
         <option value="resourceFile" />
         <option value="Kotlin File" />
         <option value="Kotlin Interface" />
-        <option value="Kotlin Data Class" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Sealed Interface" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -115,7 +233,7 @@
     &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;/Users/jiangxiyu/root/文化课/课设/移动端/app/src/main/res/drawable&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/jiangxiyu/root/文化课/课设/移动端/app/src/main/res/drawable&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
@@ -374,7 +492,14 @@
       <option name="project" value="LOCAL" />
       <updated>1729482285125</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Today,I add the shopping ui with switch.">
+      <created>1729514187673</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1729514187673</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -401,6 +526,8 @@
     <MESSAGE value="Today I add the purchase UI." />
     <MESSAGE value="Yesterday, I add the Driver Info UI." />
     <MESSAGE value="Today,I add the shopping ui preliminary." />
-    <option name="LAST_COMMIT_MESSAGE" value="Today,I add the shopping ui preliminary." />
+    <MESSAGE value="Today,I add the shopping ui with switch." />
+    <MESSAGE value="Today,I add register UI." />
+    <option name="LAST_COMMIT_MESSAGE" value="Today,I add register UI." />
   </component>
 </project>

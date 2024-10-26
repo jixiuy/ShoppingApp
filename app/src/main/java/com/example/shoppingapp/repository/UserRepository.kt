@@ -4,7 +4,9 @@ import com.example.shoppingapp.models.CarInformationResponse
 import com.example.shoppingapp.models.DriverResult
 import com.example.shoppingapp.models.HistoryAccountResponse
 import com.example.shoppingapp.models.LoginResponse
+import com.example.shoppingapp.models.RegisterResponse
 import com.example.shoppingapp.models.StationResponse
+import com.example.shoppingapp.models.User
 import com.example.shoppingapp.network.RetrofitClient
 import com.example.shoppingapp.pages.HistoryAccount
 import retrofit2.Call
@@ -15,6 +17,12 @@ class UserRepository {
     private val loginService = RetrofitClient.loginApiService
 
     private val passengerService = RetrofitClient.passengerApiService
+
+    private val registerService = RetrofitClient.registerService
+
+    suspend fun register(user: User):Response<RegisterResponse>{
+        return registerService.registerUser(user)
+    }
 
     suspend fun login(phone: String, password: String): LoginResponse {
         return loginService.login(phone, password)

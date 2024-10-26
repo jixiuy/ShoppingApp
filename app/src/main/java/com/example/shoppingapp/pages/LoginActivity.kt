@@ -28,34 +28,48 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.viewmodel.LoginViewModel
-import com.example.shoppingapp.viewmodel.LoginViewModelFactory
 import kotlinx.coroutines.launch
-
+val LocalLogin2ViewModel = compositionLocalOf<LoginViewModel> {
+    error("No ViewModel provided")
+}
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         loginViewModel = (application as MyApp).loginViewModel
 
+
         setContent {
-            LoginScreen()
+
+            CompositionLocalProvider(LocalLoginViewModel provides loginViewModel) {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "login"){
+                    composable("login"){LoginScreen(navController)}
+                    composable("register"){ RegisterPage()}
+                }
+            }
+
         }
     }
     private lateinit var loginViewModel: LoginViewModel
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun LoginScreen() {
+    fun LoginScreen(navController: NavHostController) {
         val context = LocalContext.current
         val username = remember { mutableStateOf("") }
         val password = remember { mutableStateOf("") }
         val coroutineScope = rememberCoroutineScope()
+
+
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -180,7 +194,9 @@ class LoginActivity : ComponentActivity() {
                     TextButton(onClick = { /* 忘记密码操作 */ }) {
                         Text(text = "忘记密码", color = Color(0xFF717273))
                     }
-                    TextButton(onClick = { /* 注册操作 */ }) {
+                    TextButton(onClick = {
+                        navController.navigate("register")
+                    }) {
                         Text(text = "注册登录", color = Color(0xFF717273))
                     }
                 }

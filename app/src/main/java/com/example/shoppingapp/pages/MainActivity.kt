@@ -154,7 +154,7 @@ class MainActivity : ComponentActivity() {
                     when (page) {
                         0 -> BuyPage()
                         1 -> DriverGoodsPage()
-                        2 -> RestockRequestPage()
+                        2 -> StationPage()
                         3 -> MyProfilePage()
                     }
                 }
