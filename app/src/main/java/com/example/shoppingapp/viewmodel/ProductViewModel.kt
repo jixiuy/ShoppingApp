@@ -33,7 +33,7 @@ class ProductViewModel : ViewModel() {
                     purchaseResponse?.data?.let { data ->
                         ToastUtil.showCustomToast(context, "购买商品成功", R.drawable.icon)
                     }
-                    ToastUtil.showCustomToast(context, "别", R.drawable.icon)
+                    //ToastUtil.showCustomToast(context, "别", R.drawable.icon)
                 } // 处理非2xx的响应状态码，比如400等
                 else if(response.body()?.code==400){
                     val errorResponse = response.body()

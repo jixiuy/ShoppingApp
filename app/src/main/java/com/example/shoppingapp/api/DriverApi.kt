@@ -37,4 +37,9 @@ interface DriverApi {
         @Header("token") token: String
     ): Call<CarShoppingModifyResponse>
 
+    @POST("vehicle/product/delete/{productId}")
+    suspend fun deleteStock(
+        @Path("productId") productId:Int,
+        @Header("token") token:String
+    ):Response<CarShoppingModifyResponse>
 }

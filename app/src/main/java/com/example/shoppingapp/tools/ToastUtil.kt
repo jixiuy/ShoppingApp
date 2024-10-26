@@ -12,7 +12,7 @@ object ToastUtil {
     fun showCustomToast(
         context: Context,
         message: String,
-        @DrawableRes iconResId: Int? = null
+        @DrawableRes iconResId: Int? = R.drawable.icon
     ) {
         // 加载自定义布局
         val inflater = LayoutInflater.from(context)

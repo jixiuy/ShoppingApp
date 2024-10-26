@@ -117,14 +117,14 @@ class StationViewModel : ViewModel() {
                 val response = RetrofitClient.supplierApiService.getRequests(token)
                 if (response.isSuccessful) {
                     _requestList.value = response.body()?.data ?: emptyList()
-                    ToastUtil.showCustomToast(MyApp.getContext(),"数据请求成功",R.drawable.icon)
+                    //ToastUtil.showCustomToast(MyApp.getContext(),"数据请求成功",R.drawable.icon)
                 } else {
                     _errorMessage.value = "Error: ${response.message()}"
-                    ToastUtil.showCustomToast(MyApp.getContext(),"数据请求失败",R.drawable.icon)
+                    //ToastUtil.showCustomToast(MyApp.getContext(),"数据请求失败",R.drawable.icon)
                 }
             } catch (e: Exception) {
                 _errorMessage.value = e.message
-                ToastUtil.showCustomToast(MyApp.getContext(),"数据请求异常",R.drawable.icon)
+                //ToastUtil.showCustomToast(MyApp.getContext(),"数据请求异常",R.drawable.icon)
             } finally {
                 _isLoading.value = false
             }

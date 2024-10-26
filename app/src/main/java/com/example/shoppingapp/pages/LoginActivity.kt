@@ -2,6 +2,8 @@ package com.example.shoppingapp.pages
 
 import ToastUtil
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -45,6 +47,17 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         loginViewModel = (application as MyApp).loginViewModel
+//
+//        // 检查登录状态
+//        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+//        val token = sharedPreferences.getString("token", null)
+//
+//        if (token != null) {
+//            // 如果 token 存在，跳转到主页面
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+//            return
+//        }
 
 
         setContent {
@@ -206,11 +219,15 @@ class LoginActivity : ComponentActivity() {
         }
         val loginResponse by loginViewModel.loginResponse.collectAsState(initial = null)
 
+//        val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
 
         // 当 loginResponse 更新时进行状态更新
         loginResponse?.let { response ->
             if (response.code == 200 && MyApp.count ==0) {
                 GlobalToken.token = response.data?.token
+//                editor.putString("token", GlobalToken.token)  // 保存 token
+//                editor.apply()  // 提交更改
                 ToastUtil.showCustomToast(context,"登录成功",R.drawable.icon)
                 GlobalToken.role = response.data?.role
                 (context as? Activity)?.finish()

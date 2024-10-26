@@ -1,5 +1,6 @@
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -378,8 +379,13 @@ fun Item(
 @Composable
 private fun Logout() {
     val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+
     ElevatedButton(
         onClick = {
+            editor.remove("token")  // 移除 token
+            editor.apply()
             (context as? Activity)?.finishAffinity()
         },
         Modifier

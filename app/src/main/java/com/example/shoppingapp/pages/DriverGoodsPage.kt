@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -152,7 +153,7 @@ fun CarItem(infor: DriverBean.Data) {
                             )
                         }
                     }
-                    "删除" -> {
+                    "减少" -> {
                         GlobalToken.token?.let {
                             viewModel.decreaseStock(infor.id,Integer.valueOf(quantity),
                                 it
@@ -166,6 +167,11 @@ fun CarItem(infor: DriverBean.Data) {
                             )
                         }
                     }
+                }
+            },
+            onDelete = {
+                coroutineScope.launch {
+                    GlobalToken.token?.let { viewModel.deleteCarGoodsInfo(infor.id, it) }
                 }
             }
         )
@@ -312,12 +318,12 @@ fun I2Item(order: StationBean.Data) {
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 16.sp)
         )
-//        Text(
-//            text = "数量: ${order.num}",
-//            fontSize = 14.sp,
-//            color = MaterialTheme.colorScheme.onSurface,
-//            style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 16.sp)
-//        )
+        Text(
+            text = "数量: ${order.num}",
+            fontSize = 14.sp,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 16.sp)
+        )
         Text(
             text = "详细信息: ${order.descInfo}",
             fontSize = 14.sp,
@@ -332,10 +338,10 @@ fun I2Item(order: StationBean.Data) {
 @Composable
 fun TextInputDialog2(
     onDismiss: () -> Unit,
-    onConfirm: (String, String) -> Unit // 用于返回选择的操作和输入的数量
+    onConfirm: (String, String) -> Unit, // 用于返回选择的操作和输入的数量
+    onDelete: () ->Unit
 ) {
     var secondText by remember { mutableStateOf("") }
-
     var selectedAction by remember { mutableStateOf("增加") }
     var showDialog by remember { mutableStateOf(false) }
 
@@ -347,7 +353,7 @@ fun TextInputDialog2(
             },
             text = {
                 Row {
-                    listOf("增加", "删除", "修改").forEach { action ->
+                    listOf("增加", "减少", "修改").forEach { action ->
                         Button(onClick = {
                             selectedAction = action
                             showDialog = false
@@ -389,11 +395,21 @@ fun TextInputDialog2(
             }
         },
         confirmButton = {
-            TextButton(onClick = {
-                onConfirm(selectedAction, secondText)
-                onDismiss()
-            }) {
-                Text("确认")
+            Row {
+                TextButton(onClick = {
+                    onConfirm(selectedAction, secondText)
+                    onDismiss()
+                }) {
+                    Text("确认")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                TextButton(onClick = {
+                    selectedAction = "删除"
+                    onDelete()
+                    onDismiss()
+                }) {
+                    Text("删除")
+                }
             }
         },
         dismissButton = {

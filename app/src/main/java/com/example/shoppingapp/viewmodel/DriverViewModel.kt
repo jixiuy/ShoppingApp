@@ -42,6 +42,28 @@ class DriverViewModel : ViewModel() {
 
     private val myDriverRepository = DriverRepository()
 
+    private val _deleteResponse = MutableLiveData<CarShoppingModifyResponse?>(null)
+    val deleteResponse : LiveData<CarShoppingModifyResponse?> = _deleteResponse
+
+    suspend fun deleteCarGoodsInfo(productId: Int,token:String){
+        viewModelScope.launch {
+            val response = myDriverRepository.deleteCarShoppingInfo(productId,token)
+            ToastUtil.showCustomToast(MyApp.getContext(),response.body().toString())
+            try {
+                if(response.isSuccessful&&response.body()?.code==200){
+                    _deleteResponse.postValue(response.body())
+                    ToastUtil.showCustomToast(MyApp.getContext(),"删除成功",R.drawable.icon)
+                }else{
+                    ToastUtil.showCustomToast(MyApp.getContext(),"删除失败",R.drawable.icon)
+                }
+            }catch (e:Exception){
+                ToastUtil.showCustomToast(MyApp.getContext(),"网络请求异常",R.drawable.icon)
+
+            }
+
+        }
+    }
+
     // 使用 StateFlow 来管理登录响应
     private val _carGoodsInfo = MutableLiveData<DriverBean?>(null)
     val carGoodsInfo: LiveData<DriverBean?> = _carGoodsInfo

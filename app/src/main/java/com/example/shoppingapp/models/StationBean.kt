@@ -12,6 +12,6 @@ data class StationBean(
         val price:Double,
         val imgUrl:String,
         val type:String,
-        //val num:Int
+        val num:Int
     )
 }
