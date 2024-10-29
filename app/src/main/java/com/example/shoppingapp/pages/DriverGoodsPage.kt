@@ -43,6 +43,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -69,6 +70,8 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.models.DriverBean
 import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.viewmodel.ProductViewModel
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,12 +94,19 @@ fun DriverGoodsPage() {
 private fun GoosPage(navController: NavHostController) {
     val driverViewModel: DriverViewModel = viewModel()
     val stationViewModel: StationViewModel = viewModel()
+
+    // 观察 Station 数据的变化
+    val stationGoodsInfo: StationBean? by stationViewModel.stationGoodsInfo.observeAsState()
+    val carGoodsInfo: DriverBean? by driverViewModel.carGoodsInfo.observeAsState()
+
+
     if (GlobalToken.role == 2 || GlobalToken.role == 4) {
         GlobalToken.token?.let { driverViewModel.getCarGoodsInfo(it) }
     }
     if (GlobalToken.role == 3 || GlobalToken.role == 4) {
         GlobalToken.token?.let { stationViewModel.getStationGoodsInfo(it) }
     }
+    val isLoading by driverViewModel.isLoading.observeAsState(false)
 
     var flagCharge by remember {
         mutableStateOf(false)
@@ -140,21 +150,34 @@ private fun GoosPage(navController: NavHostController) {
         }
     ) { paddingValues ->
 
-        LazyColumn(
-            contentPadding = paddingValues,
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxSize(),
-        ) {
-            if (!flagCharge) {
-                items(driverViewModel.carGoodsInfo.value?.data ?: emptyList()) { infor ->
-                    Spacer(modifier = Modifier.height(8.dp))
-                    CarItem(infor = infor)
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isRefreshing = isLoading),
+            onRefresh = {
+                // 刷新数据
+                if (!flagCharge) {
+                    GlobalToken.token?.let { driverViewModel.getCarGoodsInfo(it) }
+                } else {
+                    GlobalToken.token?.let { stationViewModel.getStationGoodsInfo(it) }
                 }
-            } else {
-                items(stationViewModel.stationGoodsInfo.value?.data ?: emptyList()) { infor ->
-                    Spacer(modifier = Modifier.height(8.dp))
-                    StationItem(infor = infor)
+            }
+        ) {
+            LazyColumn(
+                contentPadding = paddingValues,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxSize(),
+            ) {
+                if (!flagCharge) {
+                    items(carGoodsInfo?.data?: emptyList()) { infor ->
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CarItem(infor = infor)
+                    }
+                } else {
+
+                    items(stationGoodsInfo?.data?: emptyList()) { infor ->
+                        Spacer(modifier = Modifier.height(8.dp))
+                        StationItem(infor = infor)
+                    }
                 }
             }
         }

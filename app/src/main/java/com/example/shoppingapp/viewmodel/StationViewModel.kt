@@ -28,24 +28,19 @@ class StationViewModel : ViewModel() {
 
     private val userRepository = UserRepository()
 
-    var stationList by mutableStateOf<List<Station>>(emptyList())
-        private set
+    private val _stationList = MutableLiveData<List<Station>>()
 
-    var errorMessage by mutableStateOf<String?>(null)
-        private set
+    val stationList :LiveData<List<Station>> = _stationList
 
     suspend fun getStationInfo(token:String){
         viewModelScope.launch{
             try {
                 val response = stationRepository.getStationInfo(token)
                 if (response.isSuccessful) {
-                    stationList = response.body()?.data ?: emptyList()
-
-                } else {
-                    errorMessage = "Error: ${response.code()}"
+                    _stationList.postValue( response.body()?.data ?: emptyList())
                 }
             } catch (e: Exception) {
-                errorMessage = e.message
+
             }
         }
     }
@@ -130,12 +125,12 @@ class StationViewModel : ViewModel() {
         }
     }
 
-    // 使用 StateFlow 来管理登录响应
     private val _stationGoodsInfo = MutableLiveData<StationBean?>(null)
     val stationGoodsInfo: LiveData<StationBean?> = _stationGoodsInfo
 
     fun getStationGoodsInfo(token: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val response = stationRepository.getStationShoppingInfo(token)
 
@@ -149,6 +144,8 @@ class StationViewModel : ViewModel() {
             } catch (e: Exception) {
                 _stationGoodsInfo.postValue(null)
                 //Toast.makeText(MyApp.getContext(), "请求异常: ${e.message}", Toast.LENGTH_SHORT).show()
+            }finally {
+                _isLoading.value = false
             }
         }
     }

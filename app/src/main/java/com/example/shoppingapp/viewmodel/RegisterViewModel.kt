@@ -11,7 +11,6 @@ import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.User
 import com.example.shoppingapp.network.RetrofitClient
-import com.example.shoppingapp.pages.LocalLogin2ViewModel
 import com.example.shoppingapp.repository.SupplierRepository
 import com.example.shoppingapp.repository.UserRepository
 import kotlinx.coroutines.Dispatchers

@@ -149,7 +149,7 @@ fun MyItem(product: ProductResponse.Product, type: Int, buyGoodsViewModel: BuyGo
                 onClick = {
                     isShow = true
                 },
-                indication = rememberRipple(), // 添加水波纹效果
+                indication = rememberRipple(color = MaterialTheme.colorScheme.primary), // 添加水波纹效果
                 interactionSource = remember { MutableInteractionSource() }
             ),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)

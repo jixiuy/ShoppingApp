@@ -42,6 +42,7 @@ import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.Station
 import com.example.shoppingapp.models.UserRequest
+import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,31 +50,19 @@ import kotlinx.coroutines.launch
 fun StationPage() {
     val stationViewModel: StationViewModel = viewModel()
 
-    // 监听 stationList 数据的变化，如果为空则重新获取数据
-    val stationList = stationViewModel.stationList
-    val errorMessage = stationViewModel.errorMessage
-
-    val viewModel: StationViewModel = viewModel()
-    val requestList by viewModel.requestList.observeAsState(emptyList())
-    val isLoading by viewModel.isLoading.observeAsState(false)
-    val errorMessage2 by viewModel.errorMessage2.observeAsState(null)
-    val coroutine = rememberCoroutineScope()
-
-
-
+    val stationList = stationViewModel.stationList.observeAsState()
+    val requestList = stationViewModel.requestList.observeAsState()
     var flagCharge by remember {
         mutableStateOf(false)
     }
+    val loginViewModel = LocalLoginViewModel.current
 
-    LaunchedEffect(stationList,requestList) {
-        // 如果 stationList 为空且 token 存在，则发起请求
-        if (stationList.isEmpty()) {
+    val isLoggedIn by loginViewModel.isLoggedIn.observeAsState(false)
+    LaunchedEffect(isLoggedIn) {
+        if (isLoggedIn ) {
+            // 如果已经登录并且 stationList 为空，发起数据请求
             GlobalToken.token?.let { stationViewModel.getStationInfo(it) }
-        }
-        if(requestList.isEmpty()){
-            coroutine.launch {
-                GlobalToken.token?.let { viewModel.getRequests(it) }
-            }
+            GlobalToken.token?.let { stationViewModel.getRequests(it) }
         }
 
     }
@@ -107,10 +96,9 @@ fun StationPage() {
             )
         }
     ) { paddingValues ->
-        // 判断是否加载完成或者是否有错误
         if (!flagCharge) {
             // 显示 LazyColumn 或 错误消息
-            if (stationList.isNotEmpty()) {
+
                 LazyColumn(
                     contentPadding = paddingValues,
                     modifier = Modifier
@@ -118,20 +106,14 @@ fun StationPage() {
                         .fillMaxSize(),
                 ) {
                     // 使用 items 而不是 forEach 来处理列表
-                    items(stationList) { station ->
+                    items(stationList.value?: emptyList()) { station ->
                         StationInfoItem(station)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }
 
-            }
-        } else {
 
-            if (isLoading) {
-                CircularProgressIndicator()
-            } else if (errorMessage2 != null) {
-                Text(text = "Error: $errorMessage")
-            } else {
+        } else {
                 //ToastUtil.showCustomToast(MyApp.getContext(),requestList.toString(),R.drawable.icon)
                 LazyColumn(
                     contentPadding = paddingValues,
@@ -139,7 +121,7 @@ fun StationPage() {
                         .padding(10.dp)
                         .fillMaxSize(),
                 ) {
-                    items(requestList) { request ->
+                    items(requestList.value?: emptyList()) { request ->
                         RequestItem(request)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
@@ -147,7 +129,7 @@ fun StationPage() {
             }
         }
     }
-}
+
 @Composable
 fun RequestItem(request: UserRequest) {
 

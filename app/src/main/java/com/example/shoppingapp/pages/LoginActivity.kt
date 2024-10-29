@@ -39,26 +39,12 @@ import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
-val LocalLogin2ViewModel = compositionLocalOf<LoginViewModel> {
-    error("No ViewModel provided")
-}
+
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         loginViewModel = (application as MyApp).loginViewModel
-//
-//        // 检查登录状态
-//        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-//        val token = sharedPreferences.getString("token", null)
-//
-//        if (token != null) {
-//            // 如果 token 存在，跳转到主页面
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//            return
-//        }
-
 
         setContent {
 

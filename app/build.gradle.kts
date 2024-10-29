@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.3-alpha")
     implementation("androidx.compose.ui:ui:1.4.0") // Compose UI
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0") // Lifecycle KTX
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0") // ViewModel Compose
@@ -57,7 +58,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata:1.3.0")
     implementation("androidx.compose.runtime:runtime-rxjava2:1.3.0") // 如果你使用 RxJava
     implementation("androidx.navigation:navigation-compose:2.5.3")
-
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("androidx.core:core-ktx:1.9.0")

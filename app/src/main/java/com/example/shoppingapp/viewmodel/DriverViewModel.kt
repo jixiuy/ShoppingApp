@@ -68,8 +68,11 @@ class DriverViewModel : ViewModel() {
     private val _carGoodsInfo = MutableLiveData<DriverBean?>(null)
     val carGoodsInfo: LiveData<DriverBean?> = _carGoodsInfo
 
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
     fun getCarGoodsInfo(token: String) {
         viewModelScope.launch {
+            _isLoading.value = true // 请求开始，设置为加载中
             try {
                 val response = myDriverRepository.getCarShoppingInfo(token)
 
@@ -83,6 +86,8 @@ class DriverViewModel : ViewModel() {
             } catch (e: Exception) {
                 _carGoodsInfo.postValue(null)
                 //Toast.makeText(MyApp.getContext(), "请求异常: ${e.message}", Toast.LENGTH_SHORT).show()
+            }finally {
+                _isLoading.value = false // 请求结束，设置为加载完成
             }
         }
     }
