@@ -10,6 +10,7 @@ import retrofit2.Response
 
 interface PassengerApi {
 
+
     @GET("product/scan")
     suspend fun getCarInformation(
         @Query("license") license: Int,

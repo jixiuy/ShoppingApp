@@ -129,7 +129,7 @@ fun Card1() {
                 .padding(16.dp)
         ) {
             HistoryBill()
-            ModifyProfile()
+            //ModifyProfile()
             BecomeDriver()
             BecomeSupplier()
         }

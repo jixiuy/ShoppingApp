@@ -14,6 +14,7 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.models.Station
 import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.models.StationInfoResponse
+import com.example.shoppingapp.models.StationShoppingResponse
 import com.example.shoppingapp.models.UserRequest
 import com.example.shoppingapp.network.RetrofitClient
 import com.example.shoppingapp.repository.SupplierRepository
@@ -77,6 +78,57 @@ class StationViewModel : ViewModel() {
     }
 
     private val stationRepository = SupplierRepository()
+
+    private val _response = MutableLiveData<StationShoppingResponse>()
+    val response: LiveData<StationShoppingResponse> get() = _response
+
+    fun incrementProduct(productId: Int, num: Int, token: String) {
+        viewModelScope.launch {
+            val result = stationRepository.incrementProduct(productId, num, token)
+            if(result.isSuccessful&&result.body()?.code==200){
+                ToastUtil.showCustomToast(MyApp.getContext(),"添加成功")
+                    _response.postValue(result.body())
+            }else{
+                ToastUtil.showCustomToast(MyApp.getContext(),"添加失败")
+            }
+        }
+    }
+
+    fun decrementProduct(productId: Int, num: Int, token: String) {
+        viewModelScope.launch {
+            val result = stationRepository.decrementProduct(productId, num, token)
+            if(result.isSuccessful&&result.body()?.code==200){
+                ToastUtil.showCustomToast(MyApp.getContext(),"减少成功")
+                _response.postValue(result.body())
+            }else{
+                ToastUtil.showCustomToast(MyApp.getContext(),"减少失败")
+            }
+        }
+    }
+
+    fun modifyProduct(productId: Int, num: Int, token: String) {
+        viewModelScope.launch {
+            val result = stationRepository.storeProduct(productId, num, token)
+            if(result.isSuccessful&&result.body()?.code==200){
+                ToastUtil.showCustomToast(MyApp.getContext(),"修改成功")
+                _response.postValue(result.body())
+            }else{
+                ToastUtil.showCustomToast(MyApp.getContext(),"修改失败")
+            }
+        }
+    }
+
+    fun deleteProductInfo(productId: Int, token: String) {
+        viewModelScope.launch {
+            val result = stationRepository.deleteProductInfo(productId,token)
+            if(result.isSuccessful&&result.body()?.code==200){
+                ToastUtil.showCustomToast(MyApp.getContext(),"删除成功")
+                _response.postValue(result.body())
+            }else{
+                ToastUtil.showCustomToast(MyApp.getContext(),"删除失败")
+            }
+        }
+    }
 
     // 使用 StateFlow 来管理登录响应
     private val _stationGoodsInfo = MutableLiveData<StationBean?>(null)

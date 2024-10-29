@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
@@ -31,6 +32,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +57,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.shoppingapp.GlobalToken
@@ -69,6 +75,20 @@ import kotlinx.coroutines.launch
 @Preview
 @Composable
 fun DriverGoodsPage() {
+    val navController = rememberNavController()
+
+    // 定义局部导航图
+    NavHost(navController = navController, startDestination = "DriverGoodsPageMain") {
+        composable("DriverGoodsPageMain") {GoosPage(navController) }
+        composable("AddCarGoodsPage") { AddCarGoodsPage(navController) }
+        composable("AddStationGoodsPage") { AddStationGoodsPage(navController) }
+    }
+
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun GoosPage(navController: NavHostController) {
     val driverViewModel: DriverViewModel = viewModel()
     val stationViewModel: StationViewModel = viewModel()
     if (GlobalToken.role == 2 || GlobalToken.role == 4) {
@@ -77,8 +97,6 @@ fun DriverGoodsPage() {
     if (GlobalToken.role == 3 || GlobalToken.role == 4) {
         GlobalToken.token?.let { stationViewModel.getStationGoodsInfo(it) }
     }
-
-
 
     var flagCharge by remember {
         mutableStateOf(false)
@@ -108,6 +126,17 @@ fun DriverGoodsPage() {
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                if (!flagCharge) {
+                    navController.navigate("AddCarGoodsPage")
+                } else {
+                    navController.navigate("AddStationGoodsPage")
+                }
+            }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "添加商品")
+            }
         }
     ) { paddingValues ->
 
@@ -130,8 +159,6 @@ fun DriverGoodsPage() {
             }
         }
     }
-
-
 }
 
 
@@ -258,6 +285,45 @@ fun IItem(order: DriverBean.Data) {
 @Composable
 fun StationItem(infor: StationBean.Data) {
     var showDialog by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    val viewModel: StationViewModel = viewModel()
+
+    if(showDialog){
+        TextInputDialog2(
+            onDismiss = { showDialog = false },
+            onConfirm = { action, quantity ->
+                // 处理选择的操作和输入的数量
+                when (action) {
+                    "增加" -> {
+                        GlobalToken.token?.let {
+                            viewModel.incrementProduct(infor.id,Integer.valueOf(quantity),
+                                it
+                            )
+                        }
+                    }
+                    "减少" -> {
+                        GlobalToken.token?.let {
+                            viewModel.decrementProduct(infor.id,Integer.valueOf(quantity),
+                                it
+                            )
+                        }
+                    }
+                    "修改" -> {
+                        GlobalToken.token?.let {
+                            viewModel.modifyProduct(infor.id,Integer.valueOf(quantity),
+                                it
+                            )
+                        }
+                    }
+                }
+            },
+            onDelete = {
+                coroutineScope.launch {
+                    GlobalToken.token?.let { viewModel.deleteProductInfo(infor.id, it) }
+                }
+            }
+        )
+    }
 
     Card(
         modifier = Modifier

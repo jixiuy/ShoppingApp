@@ -1,6 +1,7 @@
 package com.example.shoppingapp.network
 
 import PassengerApi
+import com.example.shoppingapp.api.BuyGoodsApi
 import com.example.shoppingapp.api.DriverApi
 import com.example.shoppingapp.api.LoginApi
 import com.example.shoppingapp.api.RegisterApi
@@ -42,6 +43,14 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SupplierApi::class.java)
+    }
+
+    val goodsApiService: BuyGoodsApi by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BuyGoodsApi::class.java)
     }
 
     val registerService: RegisterApi by lazy {

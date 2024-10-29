@@ -212,7 +212,7 @@ fun I3Item(stationInfo: Station) {
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "交流方式: $${stationInfo.contactInfo}",
+            text = "交流方式: ${stationInfo.contactInfo}",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium
