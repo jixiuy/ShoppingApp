@@ -4,11 +4,13 @@ import com.example.shoppingapp.models.CarShoppingModifyResponse
 import com.example.shoppingapp.models.DriverBean
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+
 
 interface DriverApi {
     @GET("vehicle/products")
@@ -43,5 +45,11 @@ interface DriverApi {
         @Header("token") token:String
     ):Response<CarShoppingModifyResponse>
 
+    @POST("vehicle/request/{stationId}")
+    suspend fun sendRequest(
+        @Path("stationId") stationId:Int,
+        @Header("token") token:String,
+        @Body vehicle: com.example.shoppingapp.models.RequestBody.VehicleRequest
+    ):Response<CarShoppingModifyResponse>
 
 }

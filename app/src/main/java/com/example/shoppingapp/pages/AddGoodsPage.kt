@@ -1,5 +1,4 @@
 package com.example.shoppingapp.pages
-import androidx.lifecycle.viewModelScope
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -46,7 +45,6 @@ import coil.compose.rememberImagePainter
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.models.ProductResponse
 import com.example.shoppingapp.viewmodel.BuyGoodsViewModel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 

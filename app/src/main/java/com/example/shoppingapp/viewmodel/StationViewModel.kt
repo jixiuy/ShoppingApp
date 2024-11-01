@@ -19,6 +19,8 @@ import com.example.shoppingapp.models.UserRequest
 import com.example.shoppingapp.network.RetrofitClient
 import com.example.shoppingapp.repository.SupplierRepository
 import com.example.shoppingapp.repository.UserRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -73,6 +75,23 @@ class StationViewModel : ViewModel() {
     }
 
     private val stationRepository = SupplierRepository()
+
+    private val _productList = MutableStateFlow<List<com.example.shoppingapp.models.StationProductResponse.Product>>(emptyList())
+    val productList: StateFlow<List<com.example.shoppingapp.models.StationProductResponse.Product>> get() = _productList
+
+    private val _errorMessage3 = MutableStateFlow<String?>(null)
+    val errorMessage3: StateFlow<String?> get() = _errorMessage3
+
+    fun loadProducts(stationId: Int, token: String) {
+        viewModelScope.launch {
+            val result = stationRepository.fetchProducts(stationId, token)
+            result.onSuccess { products ->
+                _productList.value = products
+            }.onFailure { error ->
+                _errorMessage.value = error.message
+            }
+        }
+    }
 
     private val _response = MutableLiveData<StationShoppingResponse>()
     val response: LiveData<StationShoppingResponse> get() = _response

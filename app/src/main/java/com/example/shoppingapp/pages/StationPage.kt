@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,11 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,12 +37,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.shoppingapp.GlobalToken
+import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.Station
 import com.example.shoppingapp.models.UserRequest
-import com.example.shoppingapp.viewmodel.LoginViewModel
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,9 +54,7 @@ fun StationPage() {
 
     val stationList = stationViewModel.stationList.observeAsState()
     val requestList = stationViewModel.requestList.observeAsState()
-    var flagCharge by remember {
-        mutableStateOf(false)
-    }
+
     val loginViewModel = LocalLoginViewModel.current
 
     val isLoggedIn by loginViewModel.isLoggedIn.observeAsState(false)
@@ -66,8 +66,43 @@ fun StationPage() {
         }
 
     }
+    val navController = rememberNavController() // 创建 NavController
+
+    NavHost(navController = navController, startDestination = "stationPage") {
+        composable("stationPage") {
+            FirstPage(stationList, requestList,navController)
+        }
+        composable("target_screen/{stationId}/{stationName}") { backStackEntry ->
+            // 获取参数时，首先是 String 类型
+            val stationIdString = backStackEntry.arguments?.getString("stationId")
+            val stationName = backStackEntry.arguments?.getString("stationName")
+
+            // 将 String 转换为 Int
+            val stationId = stationIdString?.toIntOrNull() // 使用 toIntOrNull 安全转换
+
+            // 确保 stationId 和 stationName 都不为 null
+            if (stationId != null && stationName != null) {
+                StationGoodsPage(stationId, stationName, navController)
+            }
+        }
+    }
 
 
+
+
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun FirstPage(
+
+    stationList: State<List<Station>?>,
+    requestList: State<List<UserRequest>?>,
+    navController:NavController
+) {
+    var flagCharge by remember {
+        mutableStateOf(false)
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -99,36 +134,36 @@ fun StationPage() {
         if (!flagCharge) {
             // 显示 LazyColumn 或 错误消息
 
-                LazyColumn(
-                    contentPadding = paddingValues,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .fillMaxSize(),
-                ) {
-                    // 使用 items 而不是 forEach 来处理列表
-                    items(stationList.value?: emptyList()) { station ->
-                        StationInfoItem(station)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+            LazyColumn(
+                contentPadding = paddingValues,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxSize(),
+            ) {
+                // 使用 items 而不是 forEach 来处理列表
+                items(stationList.value ?: emptyList()) { station ->
+                    StationInfoItem(station,navController)
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
+            }
 
 
         } else {
-                //ToastUtil.showCustomToast(MyApp.getContext(),requestList.toString(),R.drawable.icon)
-                LazyColumn(
-                    contentPadding = paddingValues,
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .fillMaxSize(),
-                ) {
-                    items(requestList.value?: emptyList()) { request ->
-                        RequestItem(request)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
+            //ToastUtil.showCustomToast(MyApp.getContext(),requestList.toString(),R.drawable.icon)
+            LazyColumn(
+                contentPadding = paddingValues,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxSize(),
+            ) {
+                items(requestList.value ?: emptyList()) { request ->
+                    RequestItem(request)
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
     }
+}
 
 @Composable
 fun RequestItem(request: UserRequest) {
@@ -154,8 +189,7 @@ fun RequestItem(request: UserRequest) {
     }
 }
 @Composable
-fun StationInfoItem(infor: Station) {
-    var showDialog by remember { mutableStateOf(false) }
+fun StationInfoItem(infor: Station,navController:NavController) {
 
     Card(
         modifier = Modifier
@@ -163,7 +197,9 @@ fun StationInfoItem(infor: Station) {
             .padding(vertical = 4.dp)
             .clickable(
                 onClick = {
-                    showDialog = true
+                    navController.navigate("target_screen/${infor.stationId}/${infor.storeName}")
+                    //ToastUtil.showCustomToast(MyApp.getContext(),infor.stationId.toString())
+
                 },
                 indication = rememberRipple(), // 添加水波纹效果
                 interactionSource = remember { MutableInteractionSource() }

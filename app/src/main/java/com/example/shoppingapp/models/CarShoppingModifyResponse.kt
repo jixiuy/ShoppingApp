@@ -1,7 +1,7 @@
 package com.example.shoppingapp.models
 
 data class CarShoppingModifyResponse(
-    val code:Int,
-    val data:String?,
-    val message:String?
+    var code:Int,
+    var data:String?,
+    var message:String?
 )

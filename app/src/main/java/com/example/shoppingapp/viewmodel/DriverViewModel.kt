@@ -8,9 +8,13 @@ import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.CarShoppingModifyResponse
 import com.example.shoppingapp.models.DriverBean
+import com.example.shoppingapp.models.RequestBody
+import com.example.shoppingapp.models.StationProductResponse
 import com.example.shoppingapp.network.RetrofitClient
 import com.example.shoppingapp.repository.DriverRepository
 import com.example.shoppingapp.repository.UserRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,13 +46,36 @@ class DriverViewModel : ViewModel() {
 
     private val myDriverRepository = DriverRepository()
 
+    private val _request = MutableStateFlow(CarShoppingModifyResponse(404,null,null))
+    val request: StateFlow<CarShoppingModifyResponse> get() = _request
+
+    fun loadProducts(stationId: Int, token: String,vehicle: RequestBody.VehicleRequest) {
+        ToastUtil.showCustomToast(MyApp.getContext(),"${stationId},${vehicle}")
+        viewModelScope.launch {
+            val result = myDriverRepository.sendRequest(stationId, token,vehicle)
+            result.onSuccess { products ->
+                _request.value = products
+                ToastUtil.showCustomToast(MyApp.getContext(),"申请成功")
+            }.onFailure { error ->
+                _request.value.message = error.message
+                ToastUtil.showCustomToast(MyApp.getContext(),"申请失败")
+
+            }
+        }
+    }
+
+
+
+
+
+
     private val _deleteResponse = MutableLiveData<CarShoppingModifyResponse?>(null)
     val deleteResponse : LiveData<CarShoppingModifyResponse?> = _deleteResponse
 
     suspend fun deleteCarGoodsInfo(productId: Int,token:String){
         viewModelScope.launch {
             val response = myDriverRepository.deleteCarShoppingInfo(productId,token)
-            ToastUtil.showCustomToast(MyApp.getContext(),response.body().toString())
+            //ToastUtil.showCustomToast(MyApp.getContext(),response.body().toString())
             try {
                 if(response.isSuccessful&&response.body()?.code==200){
                     _deleteResponse.postValue(response.body())

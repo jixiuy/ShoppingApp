@@ -35,4 +35,17 @@ class SupplierRepository {
         return supplierServer.deleteProductInfo(productId , token)
     }
 
+    suspend fun fetchProducts(stationId: Int, token: String): Result<List<com.example.shoppingapp.models.StationProductResponse.Product>> {
+        return try {
+            val response = supplierServer.getProducts(stationId, token)
+            if (response.isSuccessful && response.body()?.code == 200) {
+                Result.success(response.body()?.data ?: emptyList())
+            } else {
+                Result.failure(Exception("获取产品列表失败"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }
