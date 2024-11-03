@@ -7,6 +7,7 @@ data class RequestResponse(
 )
 
 data class UserRequest(
+    val id:Int,
     val username: String,
     val phone: String,
     val requestProductInfoDTO: List<ProductInfo>

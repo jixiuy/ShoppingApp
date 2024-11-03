@@ -2,6 +2,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -33,6 +34,7 @@ import com.example.shoppingapp.R
 import com.example.shoppingapp.pages.HistoryAccount
 import com.example.shoppingapp.pages.LocalLoginViewModel
 import com.example.shoppingapp.pages.LoginActivity
+import com.example.shoppingapp.tools.ActivityManager
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
@@ -378,15 +380,13 @@ fun Item(
 
 @Composable
 private fun Logout() {
-    val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-    val editor = sharedPreferences.edit()
+
 
     ElevatedButton(
         onClick = {
-            editor.remove("token")  // 移除 token
-            editor.apply()
-            (context as? Activity)?.finishAffinity()
+
+            ActivityManager.finishAll()
+
         },
         Modifier
             .padding(0.dp)

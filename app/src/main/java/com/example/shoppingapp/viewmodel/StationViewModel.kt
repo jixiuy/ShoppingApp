@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
+import com.example.shoppingapp.models.ApiResponse
 import com.example.shoppingapp.models.Station
 import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.models.StationInfoResponse
@@ -195,6 +196,35 @@ class StationViewModel : ViewModel() {
                 //ToastUtil.showCustomToast(MyApp.getContext(),"数据请求异常",R.drawable.icon)
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    private val _responseApiResponse = MutableLiveData<ApiResponse?>()
+    val responseApiResponse: LiveData<ApiResponse?> = _responseApiResponse
+
+    private val _loadingApiResponse = MutableLiveData<Boolean>()
+    val loadingApiResponse: LiveData<Boolean> = _loadingApiResponse
+
+    private val _errorMessageApiResponse = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessageApiResponse
+
+    fun sendRequest(requestId: Int, type: Int,token: String) {
+        _loadingApiResponse.value = true
+        _errorMessage.value = null // 清空之前的错误信息
+
+        stationRepository.respondToRequest(requestId, type,token) { apiResponse ->
+            _loadingApiResponse.value = false // 请求完成
+            if (apiResponse != null) {
+                _responseApiResponse.value = apiResponse
+                ToastUtil.showCustomToast(MyApp.getContext(),"处理成功")
+                if (apiResponse.code != 200) {
+                    _errorMessage.value = apiResponse.message
+                    ToastUtil.showCustomToast(MyApp.getContext(),"处理失败")
+                }
+            } else {
+                _errorMessage.value = "请求失败，请稍后再试"
+                ToastUtil.showCustomToast(MyApp.getContext(),"处理失败")
             }
         }
     }

@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,13 +40,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.shoppingapp.GlobalToken
-import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.Station
 import com.example.shoppingapp.models.UserRequest
@@ -70,7 +74,7 @@ fun StationPage() {
 
     NavHost(navController = navController, startDestination = "stationPage") {
         composable("stationPage") {
-            FirstPage(stationList, requestList,navController)
+            FirstPage(stationViewModel,stationList, requestList,navController)
         }
         composable("target_screen/{stationId}/{stationName}") { backStackEntry ->
             // 获取参数时，首先是 String 类型
@@ -96,9 +100,10 @@ fun StationPage() {
 @OptIn(ExperimentalMaterial3Api::class)
 private fun FirstPage(
 
+    stationViewModel: StationViewModel,
     stationList: State<List<Station>?>,
     requestList: State<List<UserRequest>?>,
-    navController:NavController
+    navController: NavController
 ) {
     var flagCharge by remember {
         mutableStateOf(false)
@@ -157,7 +162,7 @@ private fun FirstPage(
                     .fillMaxSize(),
             ) {
                 items(requestList.value ?: emptyList()) { request ->
-                    RequestItem(request)
+                    RequestItem(stationViewModel,request)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -166,7 +171,7 @@ private fun FirstPage(
 }
 
 @Composable
-fun RequestItem(request: UserRequest) {
+fun RequestItem(stationViewModel: StationViewModel, request: UserRequest) {
 
     var showDialog by remember { mutableStateOf(false) }
 
@@ -185,6 +190,53 @@ fun RequestItem(request: UserRequest) {
     ) {
 
             I3Item2(request)
+
+    }
+
+    // Dialog 弹出框
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog=false },
+            title = { Text(text = "处理请求") },
+            text = { Text("您是否要处理此请求？") },
+            confirmButton = {
+                Row{
+                    Button(
+                        onClick = {
+                            GlobalToken.token?.let {
+                                stationViewModel.sendRequest(request.id, 0, it)
+                            }
+                            showDialog=false
+                        }
+                    ) {
+                        Text("拒绝")
+                    }
+                    Spacer(modifier = Modifier.width(5.dp))
+                    Button(
+                        onClick = {
+                            GlobalToken.token?.let {
+                                stationViewModel.sendRequest(request.id, 1, it)
+                            }
+                            showDialog=false
+                        }
+                    ) {
+                        Text("确定")
+                    }
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog=false }
+                ) {
+                    Text("取消")
+                }
+            },
+            // 在这里添加拒绝按钮
+            shape = AlertDialogDefaults.shape,
+            containerColor = AlertDialogDefaults.containerColor,
+            tonalElevation = AlertDialogDefaults.TonalElevation,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        )
 
     }
 }

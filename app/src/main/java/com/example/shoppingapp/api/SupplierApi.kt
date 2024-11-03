@@ -1,11 +1,15 @@
 package com.example.shoppingapp.api
 
+import com.example.shoppingapp.models.ApiResponse
 import com.example.shoppingapp.models.RequestResponse
 import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.models.StationInfoResponse
 import com.example.shoppingapp.models.StationProductResponse
 import com.example.shoppingapp.models.StationShoppingResponse
+import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -60,4 +64,12 @@ interface SupplierApi {
         @Path("stationId") stationId: Int,
         @Header("token") token: String
     ): Response<StationProductResponse>
+
+    @FormUrlEncoded
+    @POST("replenishmentStation/replenishment/requests/respond")
+    fun respondToRequest(
+        @Field("requestId") requestId: Int,
+        @Field("type") type: Int,
+        @Header("token") token: String
+    ): Call<ApiResponse>
 }

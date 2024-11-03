@@ -1,9 +1,12 @@
 package com.example.shoppingapp.repository
 
+import com.example.shoppingapp.models.ApiResponse
 import com.example.shoppingapp.models.StationBean
 import com.example.shoppingapp.models.StationInfoResponse
 import com.example.shoppingapp.models.StationShoppingResponse
 import com.example.shoppingapp.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class SupplierRepository {
@@ -48,4 +51,20 @@ class SupplierRepository {
         }
     }
 
+
+    fun respondToRequest(requestId: Int, type: Int, token: String,callback: (ApiResponse?) -> Unit) {
+        supplierServer.respondToRequest(requestId, type,token).enqueue(object : Callback<ApiResponse> {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                if (response.isSuccessful) {
+                    callback(response.body())
+                } else {
+                    callback(null)
+                }
+            }
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                callback(null)
+            }
+        })
+    }
 }

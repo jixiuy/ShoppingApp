@@ -40,6 +40,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
+import com.example.shoppingapp.tools.ActivityManager
 import com.example.shoppingapp.ui.theme.ShoppingAppTheme
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -60,7 +61,7 @@ class MainActivity : ComponentActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
         )
-
+        ActivityManager.addActivity(this)
 
         setContent {
             ShoppingAppTheme {
@@ -69,6 +70,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityManager.removeActivity(this)
     }
 
     @Composable

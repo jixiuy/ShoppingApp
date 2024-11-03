@@ -37,6 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.shoppingapp.GlobalToken
 import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
+import com.example.shoppingapp.tools.ActivityManager
 import com.example.shoppingapp.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
 
@@ -44,8 +45,11 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        loginViewModel = (application as MyApp).loginViewModel
 
+
+
+        loginViewModel = (application as MyApp).loginViewModel
+        ActivityManager.addActivity(this)
         setContent {
 
             CompositionLocalProvider(LocalLoginViewModel provides loginViewModel) {
@@ -57,6 +61,10 @@ class LoginActivity : ComponentActivity() {
             }
 
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityManager.removeActivity(this)
     }
     private lateinit var loginViewModel: LoginViewModel
     @OptIn(ExperimentalMaterial3Api::class)
@@ -208,6 +216,7 @@ class LoginActivity : ComponentActivity() {
 //        val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
 //        val editor = sharedPreferences.edit()
 
+
         // 当 loginResponse 更新时进行状态更新
         loginResponse?.let { response ->
             if (response.code == 200 && MyApp.count ==0) {
@@ -219,7 +228,7 @@ class LoginActivity : ComponentActivity() {
                 (context as? Activity)?.finish()
                 MyApp.count = MyApp.count!! + 1
 
-            } else if(MyApp.count!! >0){
+            } else if(MyApp.count!! >=1){
                 ToastUtil.showCustomToast(context,"已经登录过了，不允许重复登录",R.drawable.icon)
                 (context as? Activity)?.finish()
             }else{
