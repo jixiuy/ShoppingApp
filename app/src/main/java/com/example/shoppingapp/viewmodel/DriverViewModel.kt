@@ -8,8 +8,7 @@ import com.example.shoppingapp.MyApp
 import com.example.shoppingapp.R
 import com.example.shoppingapp.models.CarShoppingModifyResponse
 import com.example.shoppingapp.models.DriverBean
-import com.example.shoppingapp.models.RequestBody
-import com.example.shoppingapp.models.StationProductResponse
+import com.example.shoppingapp.models.VehicleRequest
 import com.example.shoppingapp.network.RetrofitClient
 import com.example.shoppingapp.repository.DriverRepository
 import com.example.shoppingapp.repository.UserRepository
@@ -49,10 +48,10 @@ class DriverViewModel : ViewModel() {
     private val _request = MutableStateFlow(CarShoppingModifyResponse(404,null,null))
     val request: StateFlow<CarShoppingModifyResponse> get() = _request
 
-    fun loadProducts(stationId: Int, token: String,vehicle: RequestBody.VehicleRequest) {
-        ToastUtil.showCustomToast(MyApp.getContext(),"${stationId},${vehicle}")
+    fun loadProducts(stationId: Int, token: String,requestBody:  List<VehicleRequest>) {
+        //ToastUtil.showCustomToast(MyApp.getContext(),"${stationId},${vehicle}")
         viewModelScope.launch {
-            val result = myDriverRepository.sendRequest(stationId, token,vehicle)
+            val result = myDriverRepository.sendRequest(stationId, token,requestBody)
             result.onSuccess { products ->
                 _request.value = products
                 ToastUtil.showCustomToast(MyApp.getContext(),"申请成功")

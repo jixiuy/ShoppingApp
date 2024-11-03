@@ -2,6 +2,7 @@ package com.example.shoppingapp.api
 
 import com.example.shoppingapp.models.CarShoppingModifyResponse
 import com.example.shoppingapp.models.DriverBean
+import com.example.shoppingapp.models.VehicleRequest
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -49,7 +50,7 @@ interface DriverApi {
     suspend fun sendRequest(
         @Path("stationId") stationId:Int,
         @Header("token") token:String,
-        @Body vehicle: com.example.shoppingapp.models.RequestBody.VehicleRequest
+        @Body requestBody: List<VehicleRequest>
     ):Response<CarShoppingModifyResponse>
 
 }

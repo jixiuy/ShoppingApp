@@ -2,8 +2,6 @@ package com.example.shoppingapp.pages
 
 import DriverViewModel
 import StationViewModel
-import ToastUtil
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,15 +20,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -39,6 +41,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,25 +56,31 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.shoppingapp.GlobalToken
-import com.example.shoppingapp.MyApp
-import com.example.shoppingapp.models.RequestBody
 import com.example.shoppingapp.models.StationProductResponse
+import com.example.shoppingapp.models.VehicleRequest
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StationGoodsPage( stationId:Int, stationName:String,    navController: NavController){
-    val viewModel : StationViewModel = viewModel()
+fun StationGoodsPage( stationId:Int, stationName:String,    navController: NavController) {
+
+    // 观察 ViewModel 中的产品列表
+    val stationViewModel: StationViewModel = viewModel()
+    val driverViewModel: DriverViewModel = viewModel()
     val coroutineScope = rememberCoroutineScope()
     var isLoading by remember { mutableStateOf(true) }
 
     // 观察 ViewModel 中的产品列表
-    val goodsList by viewModel.productList.collectAsState(emptyList())
+    val goodsList by stationViewModel.productList.collectAsState(emptyList())
+    val selectedProducts = remember { mutableStateListOf<StationProductResponse.Product>() }
+    var showDialog by remember { mutableStateOf(false) }
+    val quantities = remember { mutableStateMapOf<Int, String>() } // 保存每个产品的数量
+
     // 模拟网络请求
     LaunchedEffect(stationId) {
         coroutineScope.launch {
-            GlobalToken.token?.let { viewModel.loadProducts(stationId, it) }
+            GlobalToken.token?.let { stationViewModel.loadProducts(stationId, it) }
             isLoading = false // 设置加载完成
         }
     }
@@ -79,10 +89,22 @@ fun StationGoodsPage( stationId:Int, stationName:String,    navController: NavCo
             TopAppBar(
                 title = {
                     Text("供货站：${stationName}货物信息", fontSize = 20.sp)
-                },navigationIcon = {
+                }, navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "返回")
                     }
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    if (selectedProducts.isNotEmpty()) {
+                        showDialog = true // 打开对话框
+                    }
+                },
+                content = {
+                    Icon(Icons.Default.Check, contentDescription = "确认选择")
                 }
             )
         }
@@ -96,27 +118,80 @@ fun StationGoodsPage( stationId:Int, stationName:String,    navController: NavCo
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     items(goodsList) { product ->
-                        I3Item2(product)
+                        I3Item2(product, selectedProducts)
                     }
                 }
             }
         }
     }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            text = {
+                Column {
+                    selectedProducts.forEach { product ->
+                        Text(text = "商品: ${product.name}")
+                        TextField(
+                            value = quantities[product.id] ?: "", // 使用状态中的数量值
+                            onValueChange = { quantities[product.id] = it },
+                            label = { Text("请输入数量") },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        )
+                        Spacer(modifier = Modifier.padding(vertical = 3.dp))
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        // 在这里处理网络请求
+                        val requests = selectedProducts.mapNotNull { product ->
+                            quantities[product.id]?.takeIf { it.isNotEmpty() }?.let { quantity ->
+                                VehicleRequest(id = product.id, quantity = quantity.toInt())
+                            }
+                        }
+
+                        GlobalToken.token?.let {
+                            driverViewModel.loadProducts(stationId, it, requests)
+                        }
+                        // 清空选择状态
+                        selectedProducts.clear()
+                        showDialog = false
+                    }
+                ) {
+                    Text("确定")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text("取消")
+                }
+            }
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun I3Item2(product: StationProductResponse.Product) {
-    var showDialog by remember { mutableStateOf(false) }
-    var quantity by remember { mutableStateOf("") }
+fun I3Item2(
+    product: StationProductResponse.Product,
+    selectedProducts: MutableList<StationProductResponse.Product>
+) {
+
+    val isSelected = selectedProducts.contains(product)
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(vertical = 8.dp)
             .clickable(
                 onClick = {
-                    showDialog = true
+                    if (isSelected) {
+                        selectedProducts.remove(product)
+                    } else {
+                        selectedProducts.add(product)
+                    }
                 },
                 indication = rememberRipple(), // 添加水波纹效果
                 interactionSource = remember { MutableInteractionSource() }
@@ -129,6 +204,17 @@ fun I3Item2(product: StationProductResponse.Product) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(8.dp)
             ) {
+                // 选择圆点
+                RadioButton(
+                    selected = isSelected,
+                    onClick = {
+                        if (isSelected) {
+                            selectedProducts.remove(product)
+                        } else {
+                            selectedProducts.add(product)
+                        }
+                    }
+                )
                 Image(
                     painter = rememberImagePainter(data = product.imgUrl),
                     contentDescription = "Product Image",
@@ -172,52 +258,9 @@ fun I3Item2(product: StationProductResponse.Product) {
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.bodyMedium
                     )
-
-            }
+                }
 
         }
     }
-    val viewModel:DriverViewModel = viewModel()
 
-    if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            text = {
-                Column {
-                    TextField(
-                        value = quantity,
-                        onValueChange = { quantity = it },
-                        label = { Text("请输入申请数量:") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                    )
-                }
-            },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        // 发起网络请求
-                        if (quantity.isNotEmpty()) {
-                            // 在这里处理网络请求
-                            // 假设网络请求成功后
-                            val vehicle = RequestBody.VehicleRequest(product.id, quantity.toInt())
-                            ToastUtil.showCustomToast(MyApp.getContext(),"${vehicle}+${product.id}")
-                            GlobalToken.token?.let {
-                                viewModel.loadProducts(product.id,
-                                    it,vehicle)
-                            }
-                            showDialog = false
-
-                        }
-                    }
-                ) {
-                    Text("确定")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("取消")
-                }
-            }
-        )
-    }
 }

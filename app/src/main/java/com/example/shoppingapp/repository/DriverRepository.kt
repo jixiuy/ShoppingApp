@@ -2,7 +2,7 @@ package com.example.shoppingapp.repository
 
 import com.example.shoppingapp.models.CarShoppingModifyResponse
 import com.example.shoppingapp.models.DriverBean
-import com.example.shoppingapp.models.RequestBody
+import com.example.shoppingapp.models.VehicleRequest
 import com.example.shoppingapp.network.RetrofitClient
 import retrofit2.Response
 
@@ -16,9 +16,9 @@ class DriverRepository {
     suspend fun deleteCarShoppingInfo(productId:Int,token:String): Response<CarShoppingModifyResponse> {
         return driverService.deleteStock(productId,token)
     }
-    suspend fun sendRequest(stationId: Int, token: String,vehicle: RequestBody.VehicleRequest): Result<CarShoppingModifyResponse> {
+    suspend fun sendRequest(stationId: Int, token: String,requestBody: List<VehicleRequest>): Result<CarShoppingModifyResponse> {
         return try {
-            val response = driverService.sendRequest(stationId, token,vehicle)
+            val response = driverService.sendRequest(stationId, token,requestBody)
             // 检查响应是否成功且返回代码为200
             if (response.isSuccessful) {
                 val body = response.body()

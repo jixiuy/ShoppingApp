@@ -9,27 +9,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="I will finish the shopping App2.">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/RequestBody.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/StationProductResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationGoodsPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/checksums/checksums.lock" afterDir="false" />
+    <list default="true" id="06b52b25-6821-42a6-9742-c4a9cf908560" name="Changes" comment="Finishing daily work.">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/VehicleRequest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.0/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/DriverApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/DriverApi.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/SupplierApi.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/api/SupplierApi.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/CarShoppingModifyResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/CarShoppingModifyResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/AddGoodsPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/AddGoodsPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/DriverGoodsPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/DriverGoodsPage.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationPage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/models/RequestBody.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationGoodsPage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/pages/StationGoodsPage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/DriverRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/DriverRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/SupplierRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/repository/SupplierRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/DriverViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/shoppingapp/viewmodel/StationViewModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +32,7 @@
       <option value="repository" />
     </option>
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/jiangxiyu/.android/avd/Resizable_Experimental_API_35.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[8f08b2bb]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -418,7 +409,14 @@
       <option name="project" value="LOCAL" />
       <updated>1730214163066</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Finishing daily work.">
+      <created>1730463493650</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1730463493650</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,6 +448,7 @@
     <MESSAGE value="Today,I add the station's second ui." />
     <MESSAGE value="Today,I add the driver's delete and modify function." />
     <MESSAGE value="I will finish the shopping App2." />
-    <option name="LAST_COMMIT_MESSAGE" value="I will finish the shopping App2." />
+    <MESSAGE value="Finishing daily work." />
+    <option name="LAST_COMMIT_MESSAGE" value="Finishing daily work." />
   </component>
 </project>
